@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .yellow{
+            background-color: yellow;
+        }
+        .blue{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="currentComponent='user-component'" :class="active1">用户名密码登录</button>
+    <button @click="currentComponent='wechat-component'" :class="active2">微信扫描登录</button>
+    <keep-alive>
+        <component :is="currentComponent" @my-event="handleEvent"></component>
+    </keep-alive>
+</div>
+<script>
+    Vue.component('user-component',{
+        template:`
+            <div>
+                用户名： <input type="text"><br>
+                密码： <input type="text"><br>
+            </div>
+        `,
+        created(){
+            console.log('user-component的生命周期钩子函数created执行了')
+        },
+        activated(){
+            console.log('user-component被激活')
+            this.$emit('my-event',['yellow','blue'])
+        },
+        deactivated(){
+            console.log('user-component被停用')
+            this.$emit('my-event',['blue','yellow'])
+        }
+    })
+    Vue.component('wechat-component',{
+        template:`
+            <div>
+                <img src="https://portrait.gitee.com/uploads/avatars/user/774/2324257_shuhongfan_1578971924.png!avatar200" alt="">
+            </div>
+        `,
+        created(){
+            console.log('wechat-component的生命周期钩子函数created执行了')
+        },
+        activated(){
+            console.log('wechat-component被激活')
+            // this.$emit('my-event',['yellow','blue'])
+        },
+        deactivated(){
+            console.log('wechat-component被停用')
+            // this.$emit('my-event',['blue','yellow'])
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            currentComponent:'user-component',
+            active1:'',
+            active2:''
+        },
+        methods:{
+            handleEvent(str){
+                console.log(str)
+                this.active1=str[0]
+                this.active2=str[1]
+            }
+        }
+    })
+</script>
+</body>
+</html>

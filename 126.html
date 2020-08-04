@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <menu-item :title="titi" :parr="parr" :pobj="pobj" content-hekk="hello" :pnum="12" :pboo="true"></menu-item>
+</div>
+<script>
+    Vue.component('third-com',{
+        props:['testTitle'],
+        template: `<div>{{testTitle}}</div>`
+    })
+    Vue.component('menu-item',{
+        props:['title','contentHekk','pnum','pboo','parr','pobj'],
+        template:`<div>
+{{title}}----
+{{contentHekk}}---
+<third-com testTitle="hloow"></third-com>
+{{pnum+12}}---{{typeof pnum}}
+{{pboo}}---{{typeof pboo}}
+<ul>
+    <li v-for="(item,i) in parr">{{item}}</li>
+</ul>
+<ul>
+    <li v-for="(item,i) in pobj">{{item}}</li>
+</ul>
+</div>`
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            titi:'i love you',
+            parr:['apple','orange','banana'],
+            pobj:{
+                name:'lisi',
+                age:12
+            }
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

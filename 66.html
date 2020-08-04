@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model.lazy="uname">
+    <span>{{tip}}</span>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            uname:'',
+            tip:''
+        },
+        methods:{
+            checkname(uname){
+                setTimeout(()=>{
+                    if (uname=='admin'){
+                        this.tip='用户名已经存在'
+                    }else {
+                        this.tip='用户名可用'
+                    }
+                },2000)
+            }
+        },
+        watch:{
+            uname(val){
+                this.checkname(val)
+                this.tip='正在验证'
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ele></ele>
+</div>
+<script>
+    var Child={
+        render(createElement){
+            return createElement('p','text')
+        }
+    }
+    Vue.component('ele',{
+        render(createElement){
+            return createElement('div',
+                Array.apply(null,{
+                    length:5
+                }).map(function () {
+                    return createElement(Child)
+                }))
+        }
+    })
+    var vm =new Vue({
+        el:'#app',
+        data:{},
+        methods:{}
+    })
+</script>
+</body>
+</html>

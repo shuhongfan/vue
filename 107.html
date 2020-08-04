@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .string{
+            color: red;
+        }
+        .active-0{
+            color: blue;
+            text-transform: capitalize;
+        }
+    </style>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <div :class="classA">asfs</div>
+    <div :class="{['active-'+no]:isActive}">asfs</div>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            classA:'string',
+            isActive: true,
+            no:0
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

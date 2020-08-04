@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap-3.3.7.css">
+</head>
+<body>
+<div id="app">
+    <cmt-box @func="loadComments"></cmt-box>
+    <ul class="list-group">
+        <li v-for="item in list" :key="item.id" class="list-group-item">
+            <span class="badge">{{item.user}}</span>
+            {{item.content}}
+        </li>
+    </ul>
+    
+</div>
+<template id="tmp">
+    <div>
+        <div class="form-group">
+            <label for="">评论人：</label>
+            <input v-model="user" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="" >评论内容：</label>z
+            <textarea v-model="content" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <input @click="postComment" type="button" value="发表评论" class="btn btn-primary">
+        </div>
+    </div>
+</template>
+<script>
+    var commentBox={
+        template:'#tmp',
+        data(){
+            return{
+                user:'',
+                content:'',
+            }
+        },
+        methods:{
+            postComment(){
+                var comment={id:Date.now(),user:this.user,content:this.content}
+                // 获取评论
+                var list=JSON.parse(localStorage.getItem('cmts')||'[]')
+                // 添加评论
+                list.unshift(comment)
+                localStorage.setItem('cmts',JSON.stringify(list))
+                // 清空列表
+                this.user=this.content=''
+
+                this.$emit('func')
+            }
+        }
+    }
+
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            list:[
+                {id:Date.now(),user:'李白',content:'天生我材必有用'},
+                {id:Date.now(),user:'江小白',content:'劝君更尽一杯酒'},
+                {id:Date.now(),user:'小马',content:'风吹草低见牛羊'}
+            ]
+        },
+        methods: {
+            loadComments(){
+                var list=JSON.parse(localStorage.getItem('cmts')||'[]')
+                this.list=list
+            }
+        },
+        created(){
+            this.loadComments()
+        },
+        components:{
+            'cmt-box':commentBox
+        }
+    })
+</script>
+</body>
+</html>

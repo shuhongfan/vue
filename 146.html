@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <h4>v-model的本质</h4>
+    <input type="text" :value="msg1" @input="setMsg($event)">
+    <br>
+    msg1={{msg1}}
+    <hr>
+    <h4>v-model绑定文本框</h4>
+    <input type="text" v-model="msg2">
+    <p>msg2={{msg2}}</p>
+    <hr>
+    <h4>绑定文本区域</h4>
+    <textarea v-model="msg3" name="" id="" cols="30" rows="10">
+        textarea的原始值
+    </textarea>
+    <p>msg3={{msg3}}</p>
+    <hr>
+    <h4>绑定一个单选按钮，用v-bind即可</h4>
+    <input type="radio" :checked="checked1">只有一个单选钮
+    <br>
+    checked1={{checked1}}
+    <hr>
+    <h4>用v-model绑定一个复选框</h4>
+    <input type="checkbox" v-model="checked2">只有一个复选框
+    <br>
+    checked2={{checked2}}
+    <hr>
+    <h4>v-model多个单选钮构成的单选钮组</h4>
+    <input type="radio" v-model="picked1" value="html">html
+    <input type="radio" v-model="picked1" value="css">css
+    <input type="radio" v-model="picked1" value="js">js
+    <p>picked1={{picked1}}</p>
+    <h4>v-model多个单选钮构成的复选钮组</h4>
+    <input type="checkbox" v-model="picked2" value="html">html
+    <input type="checkbox" v-model="picked2" value="css">css
+    <input type="checkbox" v-model="picked2" value="js">js
+    <p>picked2={{picked2}}</p>
+    <hr>
+    <h4>v-model绑定下拉式列表框</h4>
+    <select v-model="selected1">
+        <option value="html">html</option>
+        <option value="css">css</option>
+        <option value="js">js</option>
+    </select>
+    <p>selected1={{selected1}}</p>
+    <h4>v-model绑定可多选列表框</h4>
+    <select v-model="selected2" multiple>
+<!--        <option value="html">html</option>-->
+<!--        <option value="css">css</option>-->
+<!--        <option value="js">js</option>-->
+        <option
+                v-for="item in options"
+                :key="item.id"
+                :value="item.id">
+            {{item.text}}
+        </option>
+    </select>
+    <p>selected1={{selected2}}</p>
+    <p>options={{options}}</p>
+    <hr>
+    <h4>单选按钮的绑定值</h4>
+    <input type="radio" v-model="checked3" value="123">单选钮
+    <p>checked3={{checked3}}</p>
+    <hr>
+    <h4>复选框绑定值</h4>
+    <input type="checkbox" v-model="toggle" value="123" true-value="123" false-value="456">复选框
+    <p>toggle={{toggle}}</p>
+    <hr>
+    <h4>v-model修饰符----由v-on:input改为v-on:change</h4>
+    <input type="text" v-model.lazy="msg4">
+    <p>msg4={{msg4}}</p>
+    <hr>
+    <h4>v-model修饰符.number</h4>
+    <input type="text" v-model.number="msg5">
+    <p>msg5={{typeof msg5}}</p>
+    <hr>
+    <h4>v-model修饰符.trim</h4>
+    <input type="text" v-model.trim="msg6">
+    <p>msg6={{msg6}}</p>
+    <hr>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg1:'hello world',
+            msg2:'hello world',
+            msg3:'hello world',
+            msg4:'hello world',
+            msg5:'42',
+            msg6:'hello world',
+            checked1:true,
+            checked2:false,
+            picked1:'css',
+            picked2:['js'],
+            selected1:'html',
+            selected2:['html','css'],
+            options:[
+                {id:'html',text:'HTML'},
+                {id:'css',text:'CSS'},
+                {id:'js',text:'JAVASCRIPT'}
+            ],
+            checked3:'',
+            // toggle:true,
+            // toggle:'456',
+            toggle:'123'
+        },
+        methods:{
+            setMsg(eve){
+                this.msg1=eve.target.value
+            }
+        }
+    })
+</script>
+</body>
+</html>

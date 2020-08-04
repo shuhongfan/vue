@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <com2 @func123="show"></com2>
+</div>
+<template id="tmpl">
+    <div>
+        <button @click="myclick">btn</button>
+        <h1>这是 子组件</h1>
+    </div>
+</template>
+<script>
+    var com2={
+        template:'#tmpl',
+        data(){
+            return {
+                sonmsg:{name:'小头儿子',age:6}
+            }
+        },
+        methods:{
+            myclick(){
+                console.log('ok')
+                this.$emit('func123',this.sonmsg)
+            }
+        }
+    }
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            datamsgforson:''
+        },
+        methods:{
+            show(data){
+                console.log('调用父组件show方法:*-----'+data)
+                console.log(data)
+                this.datamsgforson=data
+            }
+        },
+        components:{
+            com2
+        }
+    })
+</script>
+</body>
+</html>

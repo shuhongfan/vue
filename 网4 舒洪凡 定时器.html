@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <script src="lib/vue-2.4.0.js"></script>-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <span :style='mystyle'>{{currentTime}}</span>
+    </div>
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                currentTime:new Date(),
+                mystyle:{
+                    color:''
+                },
+                Interval:'',
+            },
+            methods:{
+                time(){
+                    this.currentTime=new Date()
+                    var padDateTime=(dt)=>dt<10?'0'+dt:dt
+                    var year=this.currentTime.getFullYear()
+                    var month=padDateTime(this.currentTime.getMonth()+1)
+                    var day=padDateTime(this.currentTime.getDate())
+                    var hours=padDateTime(this.currentTime.getHours())
+                    var minutes=padDateTime(this.currentTime.getMinutes())
+                    var seconds=padDateTime(this.currentTime.getSeconds())
+                    // this.currentTime=year+'年'+month+'月'+day+'日'+'  '+hours+'时'+minutes+'分'+seconds+'秒'
+
+                    this.currentTime=`${year}年${month}月${day}日  ${hours}时${minutes}分${seconds}秒`
+
+                    var r=Math.floor(Math.random()*256)
+                    var g=Math.floor(Math.random()*256)
+                    var b=Math.floor(Math.random()*256)
+
+                    this.mystyle.color='rgb('+r+','+g+','+b+')'
+                },
+            },
+            created(){
+                this.time()
+                Interval=setInterval(()=>{
+                    this.time()
+                },1000)
+            },
+            beforeDestory(){
+                clearInterval(this.Interval)
+            }
+        })
+    </script>
+</body>
+</html>

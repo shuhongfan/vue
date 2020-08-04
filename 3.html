@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <input type="button" value="浪起来" @click="lang">
+    <input type="button" value="低调" @click="stop">
+    <h4 v-html="msg"></h4>
+</div>
+
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'别浪 稳住我们能行',
+            setIntervalId:null,
+        },
+        methods:{
+            lang(){
+                if (this.setIntervalId==null){
+                    this.setIntervalId=setInterval(()=>{
+                        console.log(this.msg)
+                        var start=this.msg.substr(0,1)
+                        var end=this.msg.substr(1,)
+                        this.msg=end+start
+                    },200)
+                }
+            },
+            stop(){
+                clearInterval(this.setIntervalId)
+                this.setIntervalId=null
+            }
+        }
+    })
+</script>
+</body>
+</html>

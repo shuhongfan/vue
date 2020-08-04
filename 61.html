@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+<div v-if="score>=90">优秀</div>
+<div v-if="score<90&&score>=80">良好</div>
+<div v-if="score<80&&score>=60">一般</div>
+<div v-if="score<60">不及格</div>
+
+    <ul>
+        <li v-for="item in arr" :key="item">{{item}}</li>
+    </ul>
+
+    <ol>
+        <li v-if="item.uname=='bb'" v-for="item in myFruits" :key="item.uname">{{item.uname+'----'+item.likes}}</li>
+    </ol>
+</div>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            score:60,
+            arr:['apple','banana','dog'],
+            myFruits:[
+                {uname:'aa', likes:'apple'},
+                {uname:'bb', likes:'banana'},
+                {uname:'cc', likes:'dog'},
+                ]
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

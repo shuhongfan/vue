@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <script src="lib/moment.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>{{data|format('yyyy-MM-dd')}}</div>
+    <div>{{data|dataFormat('YYYY-MM-DD HH:mm:ss')}}</div>
+    <div>{{data|dataFormat('LLLL')}}</div>
+</div>
+<script>
+    Vue.filter('format',function (val,arg) {
+        if (arg=='yyyy-MM-dd'){
+            var ret=''
+            ret+=val.getFullYear()+'-'+(val.getMonth()+1)+'-'+val.getDate()
+            return ret
+        }
+
+    })
+    Vue.filter('dataFormat',function (val,arg) {
+        moment.locale();
+        return moment().format(arg)
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            data:new Date()
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

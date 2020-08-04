@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <menu-component :lists="menus"></menu-component>
+</div>
+<template id="my">
+    <ul>
+        <li
+                v-for="list in lists"
+                v-show="list.isShow===true"
+                @click="handleShow(list)">
+            <span v-if="list.children&&list.children[0].isShow===false">+</span>
+            <span v-else="list.children&&list.children[0].isShow===true">-</span>
+            {{list.name}}
+<!--            组件的递归调用 v-if是递归调用的结束条件-->
+            <menu-component v-if="list.children" :lists="list.children"></menu-component>
+        </li>
+    </ul>
+</template>
+<script>
+    Vue.component('menu-component',{
+        template:'#my',
+        props:['lists'],
+        methods:{
+            handleShow(item){
+                console.log(item)
+                if (item.children){
+                    item.children.forEach(item=>{
+                        item.isShow=!item.isShow
+                    })
+                }
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            menus:[
+                {name:'menu-1',isShow:true},
+                {
+                    name:'menu-2',
+                    isShow:true,
+                    children:[
+                        {name:'menu-2-1',isShow:false},
+                        {name:'menu-2-2',isShow:false}
+                    ]
+                },
+                {name:'menu-3',isShow:true}
+            ]
+        }
+    })
+</script>
+</body>
+</html>

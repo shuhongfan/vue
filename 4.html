@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+    <style>
+        .inner{
+            height:150px ;
+            background-color: darkcyan;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+<!--        冒泡-->
+        <div class="inner" @click="divClick">
+            <input type="button" value="戳他" @click.stop="btnClick">
+        </div>
+
+        <a href="http://www.baidu.com" @click.once.prevent="aclick">去百度</a>
+
+<!--        捕获-->
+        <div class="inner" @click.capture="divClick">
+            <input type="button" value="戳他" @click="btnClick">
+        </div>
+
+
+        <div class="inner" @click.self="divClick">
+            <input type="button" value="戳他" @click="btnClick">
+        </div>
+
+    </div>
+    <script>
+        var vm=new Vue({
+            el:'#app',
+            data:{
+
+            },
+            methods:{
+                divClick(){
+                    console.log('div触发')
+                },
+                btnClick(){
+                    console.log('btn触发')
+                },
+                aclick(){
+                    console.log('a触发')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

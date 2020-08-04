@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="parentMsg">
+    <my-component message="来自父组件的文字" warning-text="错误提示信息" :msg="parentMsg"></my-component>
+</div>
+<script>
+    Vue.component('my-component', {
+        template:`<div>{{message}}--{{warningText}}-------{{msg}}</div>`,
+        props: ['message', 'warningText', 'msg']
+    })
+    var vm= new Vue({
+        el:'#app',
+        data:{
+            parentMsg: ''
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

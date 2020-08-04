@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h4>第一次调用子组件</h4>
+    <my-component></my-component>
+    <hr>
+    <h4>第二次调用子组件</h4>
+    <my-component>
+        <p>向子组件my-component下发的内容</p>
+    </my-component>
+    <hr>
+    <h4>第三次调用子组件</h4>
+    <my-component>
+        <p>向子组件默认插槽下发的内容</p>
+        <template v-slot:footer><p>11111</p></template>
+        <template v-slot:header><p>22222</p></template>
+    </my-component>
+</div>
+<template id="my">
+    <div>
+        <p>子组件自己的内容</p>
+        <slot>dsfs</slot>
+        <slot name="header"></slot>
+        <slot name="footer"></slot>
+    </div>
+</template>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+
+        },
+        components:{
+            'my-component':{
+                template:'#my'
+            }
+        }
+    })
+</script>
+</body>
+</html>

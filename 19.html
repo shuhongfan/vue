@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="修改msg" @click="msg='no'">
+    <h3 id="h3">{{msg}}</h3>
+</div>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            msg:'ok'
+        },
+        methods:{
+            show(){
+                console.log('执行show方法')
+            }
+        },
+        beforeCreate(){
+            // 实例完成被执行出来之前
+            console.log(this.msg)
+            // this.show()
+            console.log(this.$el)
+            // data和methods都没有初始化
+        },
+        created(){
+            // 实例创建成功 data和methods都初始化好了
+            console.log(this.msg)
+            console.log(this.show())
+            console.log(this.$el)
+        },
+        beforeMount(){
+            // 模板已经在内存中编译完成 尚未把模板渲染到页面中
+            console.log(document.querySelector('h3').innerHTML)
+            console.log(this.$el)
+            // 页面还是旧的
+        },
+        mounted(){
+            // 内存中的模块已经挂载到页面中，用户可以看到渲染后的页面
+            console.log(document.querySelector('h3').innerHTML)
+            console.log(this.$el)
+            // 实例已经完成创建 进入运行阶段
+        },
+
+        beforeUpdate(){
+            // 组件运行阶段 beforeUpdated和 updated
+            console.log('界面上元素的内容：'+document.querySelector('h3').innerHTML)
+            console.log('data中的msg数据：'+this.msg)
+            console.log(this.$el)
+            // 数据被更新
+            // 页面中的数据还是旧的 data数据是最新的
+        },
+        updated(){
+            // 页面中的数据和data数据都是最新的
+            console.log('界面上元素的内容：'+document.querySelector('h3').innerHTML)
+            console.log('data中的msg数据：'+this.msg)
+            console.log(this.$el)
+        },
+
+        beforeDestory(){
+            // 从运行阶段进入 销毁阶段
+            // 所有数据还在
+        },
+        destroyed(){
+            // 所有数据销毁
+        }
+    })
+
+</script>
+</body>
+</html>

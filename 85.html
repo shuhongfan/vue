@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+    var ret='------'
+    $.ajax({
+        url:'http://localhost:3000/data',
+        success(data){
+            // console.log(data)
+            ret=data
+            console.log(ret)
+        }
+    })
+    console.log(ret)
+    // -----------------------------------------
+    // $.ajax({
+    //     url:'http://localhost:3000/data',
+    //     success(data){
+    //         console.log(data)
+    //     }
+    // })
+    // $.ajax({
+    //     url:'http://localhost:3000/data1',
+    //     success(data){
+    //         console.log(data)
+    //     }
+    // })
+    // $.ajax({
+    //     url:'http://localhost:3000/data2',
+    //     success(data){
+    //         console.log(data)
+    //     }
+    // })
+
+    // -----------------------------------------------
+    $.ajax({
+        url:'http://localhost:3000/data',
+        success(data){
+            console.log(data)
+            $.ajax({
+                url:'http://localhost:3000/data1',
+                success(data){
+                    console.log(data)
+                    $.ajax({
+                        url:'http://localhost:3000/data2',
+                        success(data){
+                            console.log(data)
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+
+</script>
+</body>
+</html>

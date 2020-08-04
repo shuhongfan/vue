@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-component :width="100"></my-component>
+    <my-component1 propsA="sdas"></my-component1>
+</div>
+<script>
+    Vue.component('my-component', {
+        template:`<div :style="{background: 'red',height:'100px',width:width1}"></div>`,
+        props: ['width'],
+        computed:{
+            width1 () {
+                return this.width+'px'
+            }
+        }
+    })
+    Vue.component('my-component1', {
+        template:`<div>{{propsA}}</div>`,
+        props: {
+            propsA:Number
+        }
+    })
+    var vm =new Vue({
+        el:'#app',
+        data: {},
+        methods:{}
+    })
+</script>
+</body>
+</html>

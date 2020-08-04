@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <style>
+        div{
+            width: 100px;
+            height: 100px;
+        }
+        .active{
+            border: 1px solid red;
+            background-color: red;
+        }
+        .success{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" :value="msg" @keyup="handle">
+    <input type="text" v-model="msg">
+    <input type="text" :value="msg" @keyup="msg=$event.target.value">
+    {{msg}}
+    <div class="base" :class="arrclass" @click="isactive=!isactive"></div>
+    <div :style="{border:borderstyle,background:colorstyle}"></div>
+    <button @click="change">sadhai</button>
+    <div :style="objStyle"></div>
+    <div :style="[objStyle]" @click="overchange"></div>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'sad',
+            isactive:true,
+            arrclass:{active:this.isactive,success:this.isactive},
+            borderstyle:'10px solid red',
+            colorstyle:'green',
+            objStyle:{
+                border:'1px solid yellow',
+                width:"200px",
+                height:'500px',
+            }
+        },
+        methods:{
+            handle(event){
+                this.msg=event.target.value
+            },
+            change(){
+                this.objStyle.border='30px solid yellow'
+            },
+            overchange(){
+                this.objStyle.border='20px solid red'
+            }
+        }
+    })
+</script>
+</body>
+</html>

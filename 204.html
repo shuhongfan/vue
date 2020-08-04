@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <a href="###" @click="componentName='example1'">登录</a>
+    <a href="###" @click="componentName='example2'">注册</a>
+    <transition mode="out-in">
+        <component :is="componentName"></component>
+    </transition>
+</div>
+<script>
+    Vue.component('example1', {
+        template: `
+        <div id="reg">我是登录组件</div>
+        `
+    })
+    Vue.component('example2', {
+        template: `
+        <div id="login">我是注册组件</div>
+        `
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            componentName: 'example1'
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>{{msg}}</div>
+    <button @click="update">更新</button>
+    <button @click="destory">销毁</button>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'生命周期'
+        },
+        methods:{
+            update(){
+                this.msg='hello'
+            },
+            destory(){
+                this.$destroy()
+            }
+        },
+        beforeCreate(){
+            console.log('beforeCreate')
+        },
+        created(){
+            console.log('created')
+        },
+        beforeMount(){
+            console.log('beforeMounted')
+        },
+        mounted(){
+            console.log('mounted')
+        },
+        beforeUpdate(){
+            console.log('beforeUpdate')
+        },
+        updated(){
+            console.log('updated')
+        },
+        beforeDestoryed(){
+            console.log('beforeDestory')
+        },
+        destroyed() {
+            console.log('beforeDestory')
+        }
+    })
+</script>
+</body>
+</html>

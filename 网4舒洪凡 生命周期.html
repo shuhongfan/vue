@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <!--用CDN方式引入vue.js框架-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+</head>
+<body>
+   <!--使用MVVM模式开发Vue.js程序-->
+
+   <!-- 定义视图View -->
+   <div id="app">
+      <!--v-model实现界面和数据的双向绑定,也就是数据的双向传输-->
+      <span>我的姓名是：{{name}}</span>  <!--用双花括号表示要计算并在网页上输出变量或表达式的值，也就是要显示数据-->
+   </div>
+
+   <script>
+       //定义模型Model,用变量myData保存模型中的所有数据，模型中的数据都要用对象形式表示，也就是要把所有的数据用花括号括起来
+       var myData={
+          name: "小汪同学"  //模型中包含的一个数据变量name（也可以看做myData对象中的一个属性）
+       };
+
+      //定义视图模型ViewModel，创建一个Vue实例对象，并将该实例对象保存到变量myApp中
+      var myApp = new Vue({
+        el:'#app',   //将Vue实例对象挂载到el选项指定的dom元素上，也就是要让该Vue实例对象能作用到el选项指定的dom元素中的所有内容，本例是指div元素下的所有内容。通俗地说，el的作用就是指定程序要用到的界面。
+        data: myData,  //将myData变量指定为data选项的值，也可以认为是把数据挂到了Vue实例上。通俗地说，就是指定程序要用到的数据。
+          beforeCreate(){
+              console.log('beforeCreate开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          created(){
+              console.log('created开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          beforeMount(){
+              console.log('beforeMount开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          mounted(){
+              console.log('mounted开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          beforeUpdate(){
+              console.log('beforeUpdate开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          updated(){
+              console.log('updated开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          beforeDestroy(){
+              console.log('beforeDestroy开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          },
+          destroyed(){
+              console.log('destroyed开始执行')
+              console.log(this.$el)
+              console.log(this.$data)
+          }
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <hello-world></hello-world>
+    <hello-tom></hello-tom>
+    <hello-jerry></hello-jerry>
+    <test-com></test-com>
+</div>
+<script src="lib/vue-2.4.0.js"></script>
+<script>
+    Vue.component('test-com',{
+        template:'<div>text-com<hello-world></hello-world></div>'
+    })
+    var helloWorld={
+        data(){
+            return {
+                msg:'helloworld'
+            }
+        },
+        template:`<div>{{msg}}</div>`
+    }
+    var helloTom={
+        data(){
+            return {
+                msg:'hellotom'
+            }
+        },
+        template:`<div>{{msg}}</div>`
+    }
+    var helloJerry={
+        data(){
+            return {
+                msg:'helloJerry'
+            }
+        },
+        template:`<div>{{msg}}</div>`
+    }
+    var vm=new Vue({
+        el:'#app',
+        data:{},
+        methods:{},
+        components:{
+            helloWorld,
+            helloTom,
+            helloJerry
+        }
+    })
+</script>
+</body>
+</html>

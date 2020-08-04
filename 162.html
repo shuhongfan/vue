@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-list :books="books">
+        <template slot="book" slot-scope="props">
+            <li>{{props.bookName}}</li>
+        </template>
+    </my-list>
+</div>
+<script>
+    Vue.component('my-list',{
+        template:`<ul>
+    <slot name="book" v-for="book in books" :book-name="book.name"></slot>
+</ul>`,
+        props:{
+            books:{
+                type:Array,
+                default(){
+                    return []
+                }
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            books: [
+                {name:'vuejs实战'},
+                {name:'js'},
+                {name:'html'}
+            ]
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

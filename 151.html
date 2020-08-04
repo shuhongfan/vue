@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-component :init-count="1"></my-component>
+</div>
+<script>
+    Vue.component('my-component', {
+        template: `<div>
+            {{count}}
+            <button @click="add">+</button>
+            </div>`,
+        props:['initCount'],
+        data(){
+            return{
+                count: this.initCount
+            }
+        },
+        methods:{
+            add(){
+                this.count+=1
+            }
+        }
+    })
+    var vm =new Vue({
+        el:'#app',
+        data: {},
+        methods:{}
+    })
+</script>
+</body>
+</html>

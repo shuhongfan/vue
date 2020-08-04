@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .v-enter{
+            opacity: 0;
+            transform: translateY(-40px);
+        }
+        .v-enter-active{
+            transition: all 1s;
+        }
+        .v-leave-active{
+            transition: all 1s;
+        }
+        .v-leave-to{
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        /*列表过度*/
+        .v-move{
+            transition: transform 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="myNo">
+    <input type="text" v-model="myName">
+    <input type="text" v-model="myAge">
+    <button @click="addItem">添加</button>
+    <input type="text" v-model="query">
+    <button @click="filterItem">筛选</button>
+    <button @click="sortItem" v-if="sortType==1">排序--原序</button>
+    <button @click="sortItem" v-if="sortType==2">排序--升序</button>
+    <button @click="sortItem" v-if="sortType==0">排序--降序</button>
+    <transition-group tag="ul">
+        <li v-for="(item,index) in items" :key="index">
+            {{index}}---{{item.no}}---{{item.name}}---{{item.age}}---<button @click="delItem(index)">删除</button>
+        </li>
+    </transition-group>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            items:[
+                {no:'t1',name:'计算机',age:23},
+                {no:'t2',name:'语文',age:12},
+                {no:'t3',name:'数学',age:33}
+            ],
+            myNo:'',
+            myName:'',
+            myAge:'',
+            sortType: 0,
+            query: '',
+            olditems:[]
+        },
+        methods:{
+            addItem(){
+                this.items.push({no:this.myNo,name:this.myName,age:this.myAge})
+                this.myNo=this.myName=this.myAge=''
+            },
+            delItem(index){
+                this.items.splice(index,1)
+            },
+            sortItem() {
+                if (this.sortType==1){
+                    this.items.sort((item1,item2)=>{
+                        return item1.age-item2.age
+                    })
+                    this.sortType=2
+                } else if (this.sortType==2){
+                    this.items=this.items.reverse()
+                    this.sortType=0
+                } else if (this.sortType==0){
+                    this.items.sort((item1,item2)=>{
+                        return item1.no-item2.no
+                        console.log(item1.no-item2.no)
+                    })
+                    this.sortType=1
+                }
+
+            },
+            filterItem () {
+                this.olditems=this.items
+                this.items=this.items.filter(item=> {
+                    return item.name==this.query
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

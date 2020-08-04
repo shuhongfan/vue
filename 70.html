@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <script src="lib/moment.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="grid">
+        <div>
+            <h1>图书管理</h1>
+            <div class="book">
+                <div>
+                    <label for="id">编号:</label>
+                    <input type="text" id="id" v-model="id" :disabled="flag" v-focus>
+                    <label for="name">名称：</label>
+                    <input type="text" id="name" v-model="name">
+                    <button @click="add" :disabled="subflag">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="total">
+        <span>图书总数：</span>
+        <span>{{total}}</span>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in books" :key="books.id">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.date|format}}</td>
+                <td>
+                    <a @click.prevent="edit(item.id)" href="">修改</a>
+                    <span>|</span>
+                    <a @click.prevent="del(item.id)" href="">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    // 过滤器
+    Vue.filter('format',function (val,arg) {
+       return  moment().format('YYYY-MM-DD HH:mm:ss')
+    })
+    // 自定义指令
+    Vue.directive('focus',{
+        inserted(el){
+            el.focus()
+        }
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            flag:false,
+            subflag:false,
+            id:'',
+            name:'',
+            books:[]
+        },
+        methods:{
+            add(){
+                if (this.flag){
+                    this.books.some((item)=>{
+                        if(item.id==this.id){
+                            item.name=this.name
+                            return true
+                        }
+                    })
+                    this.flag=false
+                }else {
+                    var book={}
+                    book.id=this.id
+                    book.name=this.name
+                    book.date=''
+                    this.books.push(book)
+                    this.id=''
+                    this.name=''
+                }
+                this.id=''
+                this.name=''
+            },
+            edit(id){
+                // 禁止修改
+                this.flag=true
+                // 根据ID查找编辑数据
+                var book=this.books.filter(function (item) {
+                    return item.id==id
+                })
+                console.log(book)
+                this.id=book[0].id
+                this.name=book[0].name
+            },
+            del(id){
+                // 第一种方法
+                // // 根据ID从数组中查找元素的索引
+                // var index=this.books.findIndex(function (item) {
+                //     return item.id==id
+                // })
+                // // 根据索引删除数组元素
+                // this.books.splice(index,1)
+
+                // 第二种方法
+                this.books=this.books.filter(function (item) {
+                    // item.id==id就是要删除的数据
+                    // 找出不等于id
+                    return item.id!=id
+                })
+            }
+        },
+        computed:{//计算属性
+            total(){
+                return this.books.length
+            }
+        },
+        watch:{//侦听器
+            // 验证图书名称是否存在
+            name(val){
+                var flag=this.books.some(function (item) {
+                    return item.name==val
+                })
+                if (flag){
+                    this.subflag=true
+                }else {
+                    this.subflag=false
+                }
+            }
+        },
+        mounted(){//生命周期
+            var data=[
+                {id:1,name:'三国演义',date:'2525609975000'},
+                {id:2,name:'西游记',date:'2525609975000'},
+                {id:3,name:'红楼梦',date:'2525609975000'},
+                {id:4,name:'水浒传',date:'2525609975000'},
+            ]
+            this.books=data
+        }
+    })
+
+</script>
+</body>
+</html>

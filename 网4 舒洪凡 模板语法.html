@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <!--用CDN方式引入vue.js框架-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+</head>
+<body>
+   <!--使用MVVM模式开发Vue.js程序-->
+
+   <!-- 定义视图View -->
+   <div id="app">
+       <h1>{{msg}}</h1>
+       <h2 v-html="hello"></h2>
+       <h3><a :href="abc">{{abc}}</a></h3>
+   </div>
+
+   <script>
+       // 基于Vue.js设计一个程序，能够在视图中显示如下三个变量的值
+       // msg的值为字符串this is a message
+       // hello的值为<marquee>我是移动的文字</marquee>
+       // abc的值为字符串http://www.baidu.com
+           // 说明：变量msg的值直接显示到网页即可，变量hello的值要能够解析为marquee标签的文字移动效果，
+           // 我要能看到”我是移动的文字“能够在网页上移动的动画效果，变量abc的值作为a标签的href属性值使用，
+           // 能实现单击超链接跳转到百度网页。
+
+       //定义模型Model,用变量myData保存模型中的所有数据，模型中的数据都要用对象形式表示，也就是要把所有的数据用花括号括起来
+       var myData={
+           msg:'this is a message',
+           hello:'<marquee>我是移动的文字</marquee>',
+           abc:'http://www.baidu.com'
+       };
+
+      //定义视图模型ViewModel，创建一个Vue实例对象，并将该实例对象保存到变量myApp中
+      var myApp = new Vue({
+        el:'#app',   //将Vue实例对象挂载到el选项指定的dom元素上，也就是要让该Vue实例对象能作用到el选项指定的dom元素中的所有内容，本例是指div元素下的所有内容。通俗地说，el的作用就是指定程序要用到的界面。
+        data: myData,  //将myData变量指定为data选项的值，也可以认为是把数据挂到了Vue实例上。通俗地说，就是指定程序要用到的数据。
+      });
+    </script>
+</body>
+</html>

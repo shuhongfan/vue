@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+    <style>
+        .ball{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+        /*请使用@keyframes在网页中实现一个圆形的变色动画效果，
+        且动画开始是红色，50%变为绿色、100%变为橙色的效果。*/
+        @keyframes ballChange {
+            0% {
+                background-color: red;
+                left: 100px;
+                top: 0;
+                transform: scale(1);
+            }
+            50% {
+                background-color: green;
+                left: 300px;
+                top: 200px;
+                transform: scale(1.5);
+            }
+            100%{
+                background-color: orange;
+                left: 600px;
+                top: 500px;
+                transform: scale(1);
+            }
+        }
+        .v-enter-active{
+            animation: ballChange 3s;
+        }
+        .v-leave-active{
+            animation: ballChange 3s reverse;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="isShow=!isShow">变色</button>
+    <transition>
+        <div v-if="isShow" class="ball"></div>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            isShow: false
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

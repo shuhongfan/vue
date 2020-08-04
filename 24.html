@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="lib/animate.css">
+    <style>
+        /*进入之前元素起始状态 元素的起始状态 此时还有没有开始进入*/
+        /*动画离开之后*/
+        .v-enter,.v-leave{
+            opacity: 0;
+            transform: translate(150px);
+        }
+        /*入场/离场动画时间段*/
+        .v-enter-active,.v-leave-active{
+            transition: all .4s;
+        }
+
+        .my-enter,.my-leave{
+            opacity: 0;
+            transform: translate(0,150px);
+        }
+        /*入场/离场动画时间段*/
+        .my-enter-active,.my-leave-active{
+            transition: all .4s;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+    <hr>
+    <input type="button" value="toggle2" @click="flag2=!flag2">
+    <hr>
+    <input type="button" value="toggle3" @click="flag3=!flag3">
+
+    <transition>
+        <h3 v-if="flag">这是一个大大的H3</h3>
+    </transition>
+
+    <transition name="my">
+        <h6 v-if="flag2">这是一个大大的H6</h6>
+    </transition>
+
+    <transition
+            enter-active-class="animated bounceIn"
+            leave-active-class="animated bounceOut"
+            :duration="{enter:200,leave:400}">
+        <h1 v-if="flag3" class="animated">dsfoidhsiubvgi</h1>
+    </transition>
+
+</div>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            flag:false,
+            flag2:false,
+            flag3:false
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

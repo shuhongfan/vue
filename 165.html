@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-fo>
+    <div v-test="{msg:'hello',name:'aresn'}"></div>
+</div>
+<script>
+    Vue.directive('fo',{
+        inserted(el){
+            el.focus()
+        }
+    })
+    Vue.directive('test',{
+        bind(el,binding,vnode){
+            console.log(binding)
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{}
+    })
+</script>
+</body>
+</html>

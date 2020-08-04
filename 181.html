@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p v-if="ok">成功了</p>
+    <p v-else>失败</p>
+
+    <p v-show="ok">表白成功</p>
+    <p v-show="!ok">表白失败</p>
+    <button @click="ok=!ok">切换</button>
+    <hr>
+    <h2>测试： v-for 遍历数组</h2>
+    <ul>
+        <li v-for="(p,index) in parsons" :key="index">
+            {{index}}----{{p.name}}-----{{p.age}}
+            ---- <button @click="del(index)">删除</button>
+            ---- <button @click="update(index,{name:'Cat',age:222})">更新</button>
+        </li>
+    </ul>
+    <hr>
+    <h2>测试： v-for 遍历对象</h2>
+    <ul>
+        <li v-for="(value,key) in parsons[1]" :key="key">
+            {{value}}-----{{key}}
+        </li>
+    </ul>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            ok:false,
+            parsons:[
+                {name:'TOM',age:18},
+                {name:'JACK',age:53},
+                {name:'BOB',age:16},
+                {name:'ROSE',age:22},
+            ]
+        },
+        methods:{
+            del(i){
+                this.parsons.splice(i,1)
+            },
+            update(i,newVal){
+                // Vue本身只是监听persons的改变 没有监听数组内部数据的改变
+                // vue重写了数组中一系列改变数组内部数据的方法
+                // 先调用原生方法 再更新界面 数组内部改变 界面自动变化
+                // 数组内部发生变化 但没有调用变异方法 vue不会调用变异方法
+                this.parsons.splice(i,1,newVal)
+                // this.parsons.splice(i,0,newVal)
+            }
+        }
+    })
+</script>
+</body>
+</html>

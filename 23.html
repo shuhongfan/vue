@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="lib/bootstrap-3.3.7.css">
+    <script src="lib/vue-2.4.0.js"></script>
+    <script src="lib/vue-resource-1.3.4.js"></script>
+</head>
+<body>
+    <div id="app">
+        
+        <div class="panel panel-primary">
+              <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+              </div>
+              <div class="panel-body form-inline">
+                    <label for="">
+                        NAME:
+                        <input type="text" v-model="name" class="form-control">
+                    </label>
+                  <input type="button" value="添加" class=" btn btn-primary" @click="add">
+              </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>CTIME</th>
+                    <th>OPERATION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <script>
+        // 全局配置 请求数据接口
+        Vue.http.options.root = 'http://www.liulongbin.top:3005/';
+        // 全局启动 emulateJSON
+        Vue.http.options.emulateJSON=true
+
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                name:'',
+                list:[
+                    {'id':1,name:'五菱宏光',ctime:new Date()},
+                    {'id':2,name:'兰博基里',ctime:new Date()}
+                ]
+            },
+            methods:{
+                getAllList(){
+                    this.$http.get('api/getprodlist')
+                    .then(function (result) {
+                        console.log(result)
+                        result=result.body
+                        if (result.status===0){
+                            this.list=result.message
+                        }else {
+                            alert('获取数据失败')
+                        }
+                    })
+                },
+                add(){
+                    // 第一个参数 请求的URL
+                    // 第二个参数 要提交给服务器的数据 对象形式
+                    // 第三个参数 配置对象 哪种表单数据类型
+                    // this.$http.post('api/addproduct',{name:this.name},{emulateJSON:true})
+                    this.$http.post('api/addproduct',{name:this.name})
+                    .then(function (result) {
+                        console.log(result)
+                        if (result.body.status===0){
+                            this.getAllList()
+                            this.name=''
+                        }else {
+                            alert('添加失败')
+                        }
+                    })
+                },
+                del(id){
+                    this.$http.get(`api/delproduct/${id}`)
+                    .then(result=>{
+                        if (result.body.status===0){
+                            this.getAllList()
+                        }else {
+                            alert('删除失败')
+                        }
+                    })
+                }
+            },
+            created() {
+                this.getAllList()
+            }
+        })
+    </script>
+</body>
+</html>

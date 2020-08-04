@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h2>绑定事件监听</h2>
+    <button @click="test1">test1</button>
+    <button @click="test2('hahah')">test2</button>
+    <button @click="test3(123,$event)">test3</button>
+    <button @click="test4">test4</button>
+
+    <h2>事件修饰符</h2>
+    <div @click="test5" style="width: 200px;height: 200px;background-color:red;">
+        <div @click.stop="test6" style="width: 100px;height: 100px;background-color:blue;"></div>
+    </div>
+
+    <a @click.prevent="test7" href="http://www.baidu.com">去百度</a>
+
+    <h2>按键修饰符</h2>
+    <input type="text" @keyup.enter="test8">
+    <input type="text" @keyup.13="test8">
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{
+            test1(){
+                alert('test1')
+            },
+            test2(info){
+                alert(info)
+            },
+            test3(number,e){
+                alert(number+'---------'+e.target.innerHTML)
+            },
+            test4(e){
+                alert(e.target.innerHTML)
+            },
+            test5(){
+                alert('out')
+            },
+            test6(event){
+                // 停止事件冒泡
+                // event.stopPropagation()
+                alert('inner')
+            },
+            test7(event){
+                // 阻止事件默认行为
+                // event.preventDefault()
+                alert('点击了')
+            },
+            test8(e){
+                // console.log(e.keyCode)
+                if (e.keyCode===13){
+                    alert(e.target.value+'---'+e.keyCode)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

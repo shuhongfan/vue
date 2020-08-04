@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        li{
+            float: left;
+            border: 1px solid red;
+            width: 100px;
+            height: 50px;
+        }
+        .active{
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <ul @click="setColor($event)">
+<!--        @click="handle(index)"-->
+        <li
+                :class="currentIndex==index ? 'active' : '' "
+                :data-abc="index"
+                v-for="(item,index) in lists"
+                :key="item.id">
+            选项{{item.id}}
+        </li>
+    </ul>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            lists:[
+                {id:1},
+                {id:2},
+                {id:3}
+            ],
+            currentIndex:0
+        },
+        methods:{
+            handle(index){
+                console.log(index)
+                this.currentIndex=index
+            },
+            setColor(event){
+                this.currentIndex=event.target.dataset.abc
+            }
+        }
+    })
+</script>
+</body>
+</html>

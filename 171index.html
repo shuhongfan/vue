@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h3>v-model形式</h3>
+    <input-number :min="0" :max="100" :step="11" v-model="num"></input-number>
+    <hr>
+    <h3>@input形式</h3>
+    <input-number :min="0" :max="100" :step="11" :value="num" @input="handInput"></input-number>
+    <hr>
+    num={{num}}--父组件
+</div>
+<script src="173input-number.js"></script>
+<script src="172index.js"></script>
+</body>
+</html>

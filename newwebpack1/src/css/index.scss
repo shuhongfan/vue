@@ -1,0 +1,16 @@
+html,body{
+  #box{
+     width: 220px;
+     height: 120px;
+     //默认无法处理url地址
+     background: url("../img/sxh.jpg");
+     background-size: cover;
+   }
+  #box2{
+    width: 220px;
+    height: 120px;
+    //默认无法处理url地址
+    background: url("../img2/sxh.jpg");
+    background-size: cover;
+  }
+}

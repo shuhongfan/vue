@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>父组件</div>
+    <div>
+        <button @click="handle">销毁事件</button>
+    </div>
+    <test-tom></test-tom>
+    <test-mike></test-mike>
+</div>
+<script>
+    var hub = new Vue();
+    Vue.component('test-tom',{
+        data(){
+            return{
+                num:0
+            }
+        },
+        mounted(){
+            hub.$on('tom-event',(val)=>{
+                this.num+=val
+            })
+        },
+        methods:{
+            handle(){
+                hub.$emit('mike-event',2)
+            }
+        },
+        template:`
+            <div>
+                <div>TOM:{{num}}</div>
+                <div><button @click="handle">点击</button></div>
+            </div>
+        `
+    })
+    Vue.component('test-mike',{
+        data(){
+            return{
+                num:0
+            }
+        },
+        mounted(){
+            hub.$on('mike-event',(val)=>{
+                this.num+=val
+            })
+        },
+        methods:{
+            handle(){
+                hub.$emit('tom-event',1)
+            }
+        },
+        template:`
+            <div>
+                <div>MIKE:{{num}}</div>
+                <div><button @click="handle">点击</button></div>
+            </div>
+        `
+    })
+
+    var vm=new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods:{
+            handle(){
+                hub.$off('tom-event')
+                hub.$off('mike-event')
+            }
+        }
+    })
+</script>
+</body>
+</html>

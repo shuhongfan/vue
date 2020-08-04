@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <com2 @showforson="show"></com2>
+    </div>
+    <template id="tmpl">
+        <div>
+            <h2>这是子组件</h2>
+            <input @click="myclick" type="button" value="子组件按钮">
+        </div>
+    </template>
+    <script>
+        var com2={
+            template:'#tmpl',
+            methods: {
+                myclick(){
+                    this.$emit('showforson',this.sonmsg)
+                }
+            },
+            data(){
+                return{
+                    sonmsg:{name:'小头儿子',age:6}
+                }
+            }
+        }
+        var vm =new Vue({
+            el:"#app",
+            data:{
+                datamsgforson:null
+            },
+            methods:{
+                show(data){
+                    console.log('调用了父组件show方法'+data)
+                    console.log(data)
+                    this.datamsgforson=data
+                }
+            },
+            components:{
+                com2
+            }
+        })
+    </script>
+</body>
+</html>

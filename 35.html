@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <com1 :parentmsg="msg"></com1>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'123 啊~父组件中的数据'
+        },
+        methods:{
+
+        },
+        components:{
+            com1:{
+                template:'<h1>这是子组件-----{{parentmsg}}</h1>',
+                props:['parentmsg'],
+                data(){
+                    return{
+                        title:'123',
+                        content:'qqq'
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

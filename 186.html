@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        /*显示隐藏过度效果*/
+        .xxx-enter-active,.xxx-leave-active{
+            transition: opacity 1s;
+        }
+        /*隐藏的样式*/
+        .xxx.enter,.xxx-leave-to{
+            opacity: 0;
+        }
+
+        /*显示过渡效果*/
+        .move-enter-active{
+            transition: all 1s;
+        }
+        /*隐藏过渡效果*/
+        .move-leave-active{
+            transition: all 3s;
+        }
+        /*隐藏样式*/
+        .move-enter,.move-leave-to{
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="isShow=!isShow">toggle</button>
+    <transition name="xxx">
+        <p v-show="isShow">hello</p>
+    </transition>
+
+    <transition name="move">
+        <p v-show="isShow">hello</p>
+    </transition>
+</div>
+
+<div id="example-2">
+    <button @click="show = !show">Toggle show</button>
+    <transition name="bounce">
+        <p v-if="show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        // data(){
+        //     return{
+        //         isShow:true
+        //     }
+        // },
+        data:{
+            isShow:true
+        },
+        methods:{}
+    })
+    new Vue({
+        el: '#example-2',
+        data: {
+            show: true
+        }
+    })
+</script>
+</body>
+</html>

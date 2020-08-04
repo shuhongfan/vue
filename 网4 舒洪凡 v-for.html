@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+</head>
+<body>
+<div id="app">
+    <table border="1">
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>sex</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in list" :key="item.id">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.sex}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            list:[
+                {id:1,name:'张三',age:22,sex:'male'},
+                {id:2,name:'李四',age:19,sex:'female'},
+                {id:3,name:'王五',age:30,sex:'male'},
+                {id:4,name:'学生1', sex: 'male', age: 17},
+                {id:5,name:'学生2', sex: 'female',age: 20},
+                {id:6,name:'学生3', sex: 'male',age: 19},
+                {id:7,name: '学生4', sex: 'female',age: 18}
+            ]
+        },
+        methods:{
+            filterList(){
+                this.list=this.list.filter(function (res) {
+                    return (res.sex=='male')&&(res.age>18)
+                })
+            }
+        },
+        mounted(){
+            this.filterList()
+        }
+    })
+</script>
+</body>
+</html>

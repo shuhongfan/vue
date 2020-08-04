@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <script src="js/vue.js"></script>
+    <style>
+        .board{
+            width: 500px;
+            height: 300px;
+            border: 1px solid red;
+            position: absolute;
+            top:50%;
+            left:50%;
+            margin-left: -200px;
+            margin-top: -150px;
+        }
+        .my-appear{
+            font-size: 40px;
+            color: red;
+            background-color: yellow;
+        }
+        .my-appear-active{
+            transition: all 2s;
+        }
+        .my-appear-to{
+            color: green;
+            background-color: pink;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <transition
+            appear appear-class="my-appear"
+            appear-to-class="my-appear-to"
+            appear-active-class="my-appear-active">
+        <p>appear</p>
+    </transition>
+<!--    appear 网页初始化渲染动画-->
+    <transition appear appear-active-class="animated animate__bounceIn">
+        <div class="board">广告</div>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{}
+    })
+</script>
+</body>
+</html>

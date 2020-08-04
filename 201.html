@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .ball{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="flag=!flag">切换</button>
+    <transition
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+    >
+        <div class="ball" v-show="flag"></div>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data () {
+            return {
+                flag: false
+            }
+        },
+        methods: {
+            // 动画开始之前 设置元素div开始动画前的起始样式
+            // 形式参数el表示动画组件transition包裹的标签div
+            beforeEnter(el) {
+                // el.style.transform='translate(0,0)'
+                el.style.opacity=0
+                el.style.transform='translateX(300px)'
+            },
+            // 动画开始之后的样式
+            enter(el,done) {
+                // 强制刷新动画效果
+                el.offsetWidth
+                // el.style.transform='translate(150px,450px)'
+                el.style.transition='all 1s ease'
+                // 动画完成之后会立即执行消失 其实就是afterEnter函数的引用
+                done()
+            },
+            // 进入动画完成之后调用
+            afterEnter(el) { // 动画结束之后
+                // 隐藏了小球 但是小球的位置还是在结束位置
+                // this.flag=false
+                // 下次点击会执行下次动画的生命周期，即beforeenter开始，又会回到其实位置
+                el.style.opacity=1
+                el.style.transform='translateX(0)'
+            }
+        }
+    })
+</script>
+</body>
+</html>

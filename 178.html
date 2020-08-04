@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h4>第一次调用my-component</h4>
+    <my-component>
+        <template v-slot:slot1="{abc}" >
+            {{abc.firstname}}
+        </template>
+    </my-component>
+    <hr>
+    <h4>第二次调用my-component</h4>
+    <my-component :lists="items">
+        <template v-slot:slot2="{xyz}">
+            {{xyz.name}}
+            <span v-if="xyz.isComplete===true">★</span>
+        </template>
+    </my-component>
+</div>
+<template id="my">
+    <div>
+        <slot name="slot1" :abc="user">
+            {{user.lastname}}
+        </slot>
+        <ul>
+            <li v-for="list in lists">
+                <slot name="slot2" :xyz="list"></slot>
+            </li>
+<!--            <li><slot name="slot2" :xyz="lists[0]"></slot></li>-->
+<!--            <li><slot name="slot2" :xyz="lists[1]"></slot></li>-->
+<!--            <li><slot name="slot2" :xyz="lists[2]"></slot></li>-->
+        </ul>
+    </div>
+</template>
+<script>
+    Vue.component('my-component',{
+        template:'#my',
+        props:['lists'],
+        data(){
+            return{
+                user:{
+                    firstname:'四',
+                    lastname:'李'
+                }
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            items:[
+                {name:'写作业',isComplete:false},
+                {name:'运动',isComplete:false},
+                {name:'看课外书',isComplete:true}
+            ]
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

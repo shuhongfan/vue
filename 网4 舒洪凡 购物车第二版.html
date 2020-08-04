@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+    <style>
+        table{
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        tr{
+            border: 1px solid black;
+        }
+        td{
+            padding: 20px;
+            border: 1px solid black;
+        }
+        [v-cloak]{
+            display: none;
+        }
+        #fade{
+            width: 600px;
+            height: 300px;
+            background-color: #ccc;
+            position: fixed;
+            top: 50%;
+            left:50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <table>
+        <caption><h1>我的购物车</h1></caption>
+        <tr>
+            <th>全选<input type="checkbox" v-model="isAll" @change="handleChangeAll"></th>
+            <th>编号</th>
+            <th>名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th @click="sortSubTotal" v-if="index==1">↑总金额</th>
+            <th @click="sortSubTotal" v-if="index==2">↓总金额</th>
+            <th @click="sortSubTotal" v-if="index==0">总金额</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(goods,i) in goodsList" :key="goods.name">
+            <td><input type="checkbox" v-model="goods.isChecked"></td>
+            <td>{{i+1}}</td>
+            <td>{{goods.name}}</td>
+            <td>￥{{goods.price}}</td>
+            <td>
+                <button @click="goods.count++">+</button>
+                <input type="number" v-model="goods.count">
+                <button @click="goods.count--">-</button>
+            </td>
+            <td>{{goods.count * goods.price}}</td>
+            <td>
+                <button @click="delGoods(goods.name)">删除</button>
+                <button @click="editGoods(goods.name)">修改</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">总数量：{{totalCount}} 件</td>
+            <td colspan="2">总价：￥{{total}} 元</td>
+            <td>
+                <button @click="delChecked">删除选中商品</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <label for="name">
+                    名称: <input type="text" :disabled="nameFlag" id="name" v-model="goodsName" placeholder="请输入商品的名称">
+                </label>
+                <label for="price">
+                    单价: <input type="text" id="price" v-model.number="goodsPrice" placeholder="请输入商品的单价">
+                </label>
+                <label for="count">
+                    数量: <input type="text" id="count" v-model.number="goodsCount" placeholder="请输入商品的名称">
+                </label>
+                <button @click="addGoods" :disabled="submitFlag">
+                    <template v-if="nameFlag">修改</template>
+                    <template v-if="!nameFlag">添加</template>
+                </button>
+                <button @click="isShow=true">+</button>
+                <p v-show="isRrror" style="color: red">数据错误无法提交</p>
+            </td>
+        </tr>
+    </table>
+    <div id="fade" v-show="isShow">
+            <div>
+                <p>名称: <input type="text" :disabled="nameFlag"  v-model="goodsName" placeholder="请输入商品的名称"></p>
+                <p>单价: <input type="text"  v-model.number="goodsPrice" placeholder="请输入商品的单价"></p>
+                <p>数量: <input type="text" v-model.number="goodsCount" placeholder="请输入商品的名称"></p>
+                <button @click="addGoods();isShow=false;" :disabled="submitFlag">
+                    <template v-if="nameFlag">修改</template>
+                    <template v-if="!nameFlag">添加</template>
+                </button>
+                <p v-show="isRrror" style="color: red">数据错误无法提交</p>
+            </div>
+        <button @click="isShow=false">X</button>
+    </div>
+</div>
+<script>
+    var vm =new Vue({
+        el:'#app',
+        data:{
+            goodsList: [
+                {name:'mp3',price:'222',count:1,isChecked:false},
+                {name:'mp4',price:'888',count:2,isChecked:true},
+                {name:'mp5',price:'444',count:3,isChecked:true},
+                {name:'mp6',price:'777',count:5,isChecked:true}
+            ],
+            index:0,
+            original:{},
+            goodsName:'',
+            goodsPrice:'',
+            goodsCount:'',
+            isAll:false,// 是否全选
+            nameFlag:false,// 名称可否输入
+            isRrror:false,// 添加错误提示
+            submitFlag:false,
+            isShow:false
+        },
+        mounted(){
+          for(i=0;i<this.goodsList.length;i++){
+              Vue.set(this.goodsList[i],'isChecked',false)
+          }
+        },
+        computed: {
+            // 计算总价
+            total(){
+                // var sum=0
+                // for (let i = 0; i < this.goods.length; i++) {
+                //     sum=sum+this.goodsList[i].price+this.goodsList[i].count
+                // }
+                // return sum
+                return this.goodsList.reduce((total,item)=>{
+                    console.log(total+'--------'+item)
+                    console.log(item)
+                    if (item.isChecked){
+                        return total + item.price*item.count
+                    }
+                    return total
+                },0)
+            },
+            totalCount(){
+                return this.goodsList.reduce((totalCount,item)=>{
+                    if (item.isChecked){
+                        return totalCount+item.count
+                    }
+                    return totalCount
+                },0)
+            },
+            // addGoods(){
+            //     this.goodsList.push({
+            //         name:this.goodsName,
+            //         price:this.goodsPrice,
+            //         count:this.goodsCount
+            //     })
+            // }
+        },
+        watch: {
+            goodsPrice(val){
+                console.log(val)
+                if (val<1){
+                    val=1
+                }
+                this.goodsPrice=val
+            },
+            goodsCount(val){
+                console.log(val)
+                if (val<1){
+                    val=1
+                }
+                this.goodsCount=val
+            },
+            // 侦听数组 要用侦听函数的分解写法 保证count值永远大于0的整数
+            goodsList: {
+                // 侦听函数 必须是handler
+                handler(newValue,oldValue){
+                    console.log(newValue)
+                    var flag=true //假如是全选
+                    // for (let i = 0; i <newValue.length; i++) {
+                    //     if (newValue[i].count<1){
+                    //         this.goodsList[i].count=1
+                    //     }
+                    //     if (newValue[i].isChecked==false){ // 如果某件商品取消打钩
+                    //         flag=false //取消全选
+                    //     }
+                    // }
+                    newValue.forEach(item=>{
+                        if (item.count<1){
+                            item.count=1
+                        }
+                        if (item.preice<1){
+                            item.price=1
+                        }
+                    })
+                    newValue.some(item=>{
+                        if (!item.isChecked){
+                            flag=false
+                            return true
+                        }
+                    })
+                    console.log(flag)
+                    // if (flag){
+                    //     this.isAll=true
+                    // }else {
+                    //     this.isAll=false
+                    // }
+                    // flag?this.isAll=true:this.isAll=false
+                    this.isAll=flag
+                },
+                // 深度监听
+                deep:true
+            },
+            // 全选
+            // newVal复选框新值
+            // newVal复选框旧值
+            // isAll(newVal,oldVal){
+            //     if (newVal==true){
+            //         // 全选
+            //         // for (let i=0;i<this.goodsList.lenght;i++){
+            //         //     this.goodsList[i].isChecked=true
+            //         // }
+            //         this.goodsList.forEach(item=>{
+            //             item.isChecked=true
+            //         })
+            //     }else {
+            //         // 全不选
+            //         this.goodsList.forEach(item=>{
+            //             item.isChecked=false
+            //         })
+            //     }
+            // },
+            // 验证商品名称是否存在
+            goodsName(val){
+                const flag=this.goodsList.some(item=>{
+                     return item.name==val
+                })
+                console.log(flag)
+                if (flag){
+                    // 存在
+                    this.submitFlag=true
+                }else {
+                    // 不存在
+                    this.submitFlag=false
+                }
+            }
+        },
+        mounted(){
+            this.original=this.goodsList.slice(0)
+        },
+        methods: {
+            handleChangeAll(){
+                if (this.isAll==true){
+                    this.goodsList.forEach(item=>{
+                       item.isChecked=true
+                    })
+                    }else {
+                        this.goodsList.forEach(item=>{
+                            item.isChecked=false
+                        })
+                    }
+            },
+            // 删除商品
+            delGoods(name){
+                // // this.goodsList.splice(index,1)
+                // // splice方法返回一个包含了被删除数组元素的一个新数组，将这个数组保存到deletearr中
+                // var deleteArr=this.goodsList.splice(index,1)
+                // // 找到被删除的数组元素在origin中的位置，保存到indexoforiginal
+                // var indexInOriginal=this.original.findIndex(function (goods) {
+                //     return (goods.name===deleteArr[0].name)&&(goods.price===deleteArr[0].price)
+                // })
+                // console.log(indexInOriginal)
+                // // 同步删除在原始数组中的相应数组元素
+                // this.original.splice(indexInOriginal,1)
+                console.log(typeof name)
+                if(typeof name=='string'){
+                    name=name.split()
+                }
+                console.log(name)
+                name.forEach(item=>{
+                    console.log(item)
+                    const index=this.goodsList.findIndex(i=>{
+                        return i.name==item
+                    })
+                    console.log(index)
+                    this.goodsList.splice(index,1)
+                })
+            },
+            // 排序
+            sortSubTotal(){
+                // this.index++
+                // 保证index在0-2之间变化
+                // ++this.index%3
+                // if (this.index>2){
+                //     this.index=0
+                // }
+                if (this.index==0){
+                    this.index=1
+                    this.goodsList.sort((a,b)=>{
+                        return a.price*a.count-b.price*b.count
+                    })
+                }else if (this.index==1){
+                    this.index=2
+                    this.goodsList.sort((a,b)=>{
+                        return b.price*b.count-a.price*a.count
+                    })
+                }else if (this.index==2){
+                    this.index=0
+                    // this.goodsList.sort(() => Math.random() - 0.5)
+                    this.goodsList=this.original.slice(0)
+                }
+            },
+            // 添加商品
+            addGoods(){
+                if (this.nameFlag){
+                    // 编辑商品
+                    this.goodsList.some(item=>{
+                        if (item.name==this.goodsName){
+                            // 修改数据
+                            item.price=this.goodsPrice
+                            item.count=this.goodsCount
+                            this.nameFlag=false
+                            // 清空表单
+                            this.goodsName=''
+                            this.goodsPrice=''
+                            this.goodsCount=''
+                            return true
+                        }
+                    })
+                }else {
+                    // 添加商品
+                    const goods={
+                        name:this.goodsName,
+                        price:this.goodsPrice,
+                        count:this.goodsCount
+                    }
+                    if ((goods.name!='')&&(goods.price>0)&&(goods.count>0)){
+                        this.goodsList.push(goods)
+                        this.goodsName=''
+                        this.goodsPrice=''
+                        this.goodsCount=''
+                        this.isRrror=false
+                    }else {
+                        // 错误提示信息
+                        this.isRrror=true
+                    }
+                }
+            },
+            // 修改商品
+            editGoods(name){
+                const goods=this.goodsList.filter(item=>{
+                    return item.name==name
+                })
+                console.log(goods)
+                this.nameFlag=true
+                // 显示数据
+                this.goodsName=goods[0].name
+                this.goodsPrice=goods[0].price
+                this.goodsCount=goods[0].count
+            },
+            // 删除选中的商品
+            delChecked(){
+                const delList=[]
+                this.goodsList.forEach(item=>{
+                    if (item.isChecked){
+                        delList.push(item.name)
+                    }
+                })
+                console.log(delList)
+                this.delGoods(delList)
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+<div id="test">我是test</div>
+<ul id="fragment_test">
+    <li>test1</li>
+    <li>test2</li>
+    <li>test3</li>
+</ul>
+<script>
+    // [].slice.call(lis)将伪数组转换为真数组
+    // lis是伪数组
+    const lis = document.getElementsByTagName('li')
+    console.log(lis)
+    console.log(lis instanceof Array, lis[1].innerHTML, lis.forEach)
+    const lis2 = Array.prototype.slice.call(lis)
+    console.log(lis2 instanceof Array, lis[1].innerHTML, lis2.forEach)
+
+    // 元素节点 node.nodeType得到节点类型
+    const elementNode = document.getElementById('test')
+    const attrNode = elementNode.getAttributeNode('id')
+    const textNode = elementNode.firstChild
+    console.log(elementNode.nodeType)
+    console.log(attrNode.nodeType)
+    console.log(textNode.nodeType)
+
+    const obj = {
+        firstName: 'A',
+        lastName: 'B'
+    }
+    console.log(obj)
+    // obj.fullName='A-B'
+    // 属性描述符
+        // 数据描述符
+            // configurable是否可以重新定义
+            // enumerable是否可以枚举
+            // value初始值
+            // writable是否可以修改属性值
+        // 访问描述符
+            // get回调函数，根据其他相关的属性动态计算得到当前属性值
+            // set回调函数，监视当前属性值的变化，更新其他相关的属性值
+    Object.defineProperty(obj,'fullName',{
+        get () {
+            return this.firstName + '-' + this.lastName
+        },
+        set (val) {
+            console.log(val)
+            const names = val.split('-')
+            this.firstName = names[0]
+            this.lastName = names[1]
+        }
+    })
+    console.log(obj.fullName)
+    obj.firstName = 'c'
+    obj.lastName = 'D'
+    console.log(obj.fullName)
+    obj.fullName = 'E-F'
+    console.log(obj.firstName, obj.lastName)
+
+    Object.defineProperty(obj, 'fullNmae2', {
+        configurable: false,
+        enumerable: false,
+        value: 'G-H',
+        writable: false
+    })
+    console.log(obj.fullNmae2)
+    obj.fullNmae2='J-K'
+    console.log(obj.fullNmae2)
+
+    // Object.defineProperty(obj, 'fullNmae2', {
+    //     configurable: false,
+    //     enumerable: false,
+    //     value: 'G-H',
+    //     writable: true
+    // })
+    const name = Object.keys(obj)
+    console.log(name)
+
+    console.log(obj.hasOwnProperty('fullName'), obj.hasOwnProperty('toString'))
+
+
+    const ul = document.getElementById('fragment_test')
+    // 1.创建fragment
+    const fragment=document.createDocumentFragment()
+    // 2.取出ul中所有子节点保存到fragment
+    while (child=ul.firstChild){
+        // 一个节点只能有一个父亲
+        // 现将child从ul中移出 添加为fragment中的子节点
+        fragment.appendChild(child)
+    }
+    // 3.跟新fragment中所有li的文本
+    Array.prototype.slice.call(fragment.childNodes).forEach(node => {
+        if (node.nodeType===1){
+            // 元素节点
+            node.textContent='google'
+        }
+    })
+    // 4.将fragment插入ul
+    console.log(fragment)
+    ul.appendChild(fragment)
+</script>
+</body>
+</html>

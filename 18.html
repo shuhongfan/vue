@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var arr=['red','green','blue','pink']
+    arr.forEach(function (value) {
+        if (value=='green'){
+            console.log('找到了')
+            return true
+        }
+        console.log(11)
+    })
+
+    arr.some(function (value) {
+        if (value=='green'){
+            console.log('找到了22')
+            return true
+        }
+        console.log(22)
+    })
+
+    arr.filter(function (value) {
+        if (value=='green'){
+            console.log('找到了33')
+            return true
+        }
+        console.log(33)
+    })
+</script>
+</body>
+</html>

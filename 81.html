@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <alert-box>有BUG发生</alert-box>
+    <alert-box>有一个警告</alert-box>
+    <alert-box></alert-box>
+</div>
+<script>
+    Vue.component('alert-box',{
+        template:`
+            <div>
+                <strong>ERROR:</strong>
+                <slot>默认内容</slot>
+            </div>
+    `
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+
+        }
+    })
+</script>
+</body>
+</html>

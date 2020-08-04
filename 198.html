@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{name}}
+</div>
+<script>
+    var vm =new Vue({
+        el:'#app',
+        data:{
+            name: 'feifei'
+        },
+        methods:{}
+    })
+    console.log(vm.name,vm)
+    vm.name='xiaoxiao'
+    console.log(vm._data.name)
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-component :msg="message" :haha="ha"></my-component>
+    <hr>
+    <my-component :name="true" val="123"></my-component>
+    <hr>
+    <my-component :val="123"></my-component>
+</div>
+<template id="my">
+    <div>
+        <div>message={{msg}}</div>
+        <div>haha={{haha}}</div>
+        <div>name的类型={{typeof name}}</div>
+        <div>name={{name}}</div>
+        <div>val的类型={{typeof val}}</div>
+        <div>avl={{val}}</div>
+    </div>
+</template>
+<script>
+    Vue.component('my-component',{
+        template:'#my',
+        props: ['msg','haha','name','val']
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            message:'来自父组件的message消息',
+            ha:'哈哈哈哈啊哈哈'
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

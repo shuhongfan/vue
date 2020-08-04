@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+    <style>
+        .string{
+            text-decoration: underline;
+        }
+        .active{
+            background: greenyellow;
+        }
+        .disable-12{
+            color:yellow;
+        }
+        .danger-text{
+            color: red;
+        }
+        .activeCls{
+            border: 2px solid blue;
+        }
+        .errorCls{
+            border: 2px solid red;
+        }
+        .btn-disable{
+            disabled:disabled
+        }
+        .btn-1{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h4>v-bind动态绑定class属性</h4>
+    <p :class="classA">变量语法</p>
+    <hr>
+    <p :class="{'active':isActive,'danger-text':hasError}">对象语法</p>
+    <p :class="classObject">对象语法，用计算属性与class属性动态绑定</p>
+    <hr>
+    <p :class="[activeCls,errorCls]">数组语法</p>
+    <p :class="isActive?activeCls:'',errorCls">数组语法：三元表达式</p>
+    <p :class="[{'active':isActive},errorCls]">数组语法:包含对象</p>
+    <p :class="classArray">数组语法：用计算属性与class属性动态绑定</p>
+    <input type="button" :disabled="disable"  :class="classArray" value="fdsfds2">
+    <hr>
+    <h4>v-bind动态绑定style属性</h4>
+    <p :style="{color:'red',background:'green'}">对象语法</p>
+    <p :style="[{color:'red',fontSize:'40px'},{fontStyle:'italic'}]">对象数组语法</p>
+    <p :style="[styleObj1,styleObj2]">对象数组语法</p>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            classA:'string',
+            isActive:true,
+            hasError:true,
+            // classObject:{
+            //     active:this.isActive,
+            //     dangerText:this.hasError
+            // },
+            activeCls:'activeCls',
+            errorCls:'errorCls',
+            size:1,
+            disable:true,
+            styleObj1:{color:'red',fontSize:'40px'},
+            styleObj2:{fontStyle:'italic'}
+        },
+        methods:{},
+        computed:{
+            classObject(){
+                return{
+                    active: this.isActive && !this.hasError,
+                    'danger-text': this.hasError!=null
+                }
+            },
+            classArray(){
+                return [
+                    'active',
+                    {
+                        ['btn-'+this.size]:this.size!=='',
+                        'btn-disable':this.disable
+                    },
+                    ['disable-'+12]
+                ]
+            }
+        }
+    })
+</script>
+</body>
+</html>

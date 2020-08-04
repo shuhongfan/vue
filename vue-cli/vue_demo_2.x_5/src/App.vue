@@ -1,0 +1,18 @@
+<template>
+  <mt-button type="primary" @click.native="handleClick">test</mt-button>
+</template>
+
+<script>
+import { Toast } from 'mint-ui'
+export default {
+  name: 'App',
+  methods: {
+    handleClick () {
+      Toast('提示信息')
+    }
+  }
+}
+</script>
+
+<style scoped>
+</style>

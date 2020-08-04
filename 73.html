@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+</head>
+<body>
+<div id="app">
+    <p>
+        您购买 <input type="number" v-model="num">本《Vue.js实战》，
+        每本书售价{{price}}元,
+        打 <input type="number" v-model="discount">折后，
+        共需付款 <input type="number" v-model="total">元
+    </p>
+</div>
+<script>
+    // 通过计算属性的get函数和set函数实现：
+    // 1、可以通过输入购买书籍的本数和折扣数，正向计算出付款总数；（get函数实现）
+    // 2、可以通过在购买本数固定的情况下，通过输入付款总数，来反向求出折扣数。（set函数实现） 具体效果请看视频
+    // （注意：购买书籍本数不能小于0，折扣不能小于5，也不能大于10，该验证功能必须通过watch侦听属性来实现）
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            price:100,
+            num:1,
+            discount:9
+        },
+        // beforeUpdate(){
+        //     if (this.num<0){
+        //         this.num=0
+        //     }
+        //     if (this.discount<5){
+        //         this.discount=5
+        //     }
+        //     if (this.discount>10){
+        //         this.discount=10
+        //     }
+        // },
+        computed:{
+            total:{
+                get(){
+                    return (this.num*this.price*this.discount/10).toFixed(0)
+                },
+                set(newValue){
+                    this.discount=(newValue/this.num/this.price*10).toFixed(1)
+                }
+            }
+        },
+        watch:{
+            num(newVal,oldVal){
+                if (newVal<0){
+                    this.num=0
+                }
+            },
+            discount(newVal,oldVal){
+                if (newVal<5){
+                    this.discount=5
+                }
+                if (newVal>10){
+                    this.discount=10
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

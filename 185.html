@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="destoryVM">destroy vm</button>
+    <p v-show="isShow">我是一个p标签</p>
+</div>
+<script>
+    var vm =new Vue({
+        el:'#app',
+        data:{
+            isShow:true,
+            intervalId:''
+        },
+        methods:{
+            destoryVM(){
+                this.$destroy()
+            }
+        },
+        // 初始化阶段
+        beforeCreate(){
+            console.log('beforeCreate')
+        },
+        created(){
+            console.log('created')
+        },
+        beforeMount(){
+            console.log('beforeMount')
+        },
+        mounted(){
+            // 初始化显示之后
+            this.intervalId=setInterval(()=>{
+                console.log('-----------')
+                this.isShow=!this.isShow
+            },100)
+        },
+        // 更新阶段
+        beforeUpdate(){
+            console.log('beforeUpdate')
+        },
+        updated(){
+            console.log('updated')
+        },
+        // 销毁阶段
+        beforeDestroy(){
+            // 死亡之前调用1次
+            // 清除定时器
+            clearInterval(this.intervalId)
+        },
+        destroyed(){
+            console.log('destroyed')
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // let food='dfds'
+    // food='fsdfsd'
+    // console.log(food)
+
+    // console.log(food)
+    // let food='西蓝花'
+
+    let name='小黑'
+    let city='深圳'
+
+    let person={
+        name,
+        city,
+        sayHello(){
+            console.log('你好吗')
+        }
+    }
+    console.log(person)
+    person.sayHello()
+
+    let fun1=()=>console.log('sds')
+    fun1()
+
+    let fun2=p1=>console.log(p1)
+    fun2(222)
+
+    let fun3=(p1,p2)=>console.log(p1,p2)
+    fun3(222,333)
+
+    let fun4=()=>'itheima'
+    console.log(fun4())
+
+    let fun5=p1=>p1+'itheima'
+    let res=fun5('wuhan ')
+    console.log(res)
+
+    let fun6=(p1,p2)=>{
+        console.log(p1,p2)
+        return p1+p2
+    }
+    let res1=fun6(3,4)
+    console.log(res1)
+
+    let person1={
+        name:'zhangsan',
+        food:'rend',
+        sayHi(){
+            setTimeout( () =>{
+                console.log(this)
+            })
+
+        }
+    }
+    person1.sayHi()
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+    <style>
+        .red{
+            color: red;
+        }
+        .thin{
+            font-weight: 200;
+        }
+        .italic{
+            font-style: italic;
+        }
+        .active{
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1 v-bind:class="['thin','italic',flag?'active':'']">只是一个很大很大的h1，大到你无法想象</h1>
+
+    <h1 v-bind:class="['thin','italic',{'active':flag}]">只是一个很大很大的h1，大到你无法想象</h1>
+
+    <h1 v-bind:class="{red:true,thin:true,italic:false,active:false}">只是一个很大很大的h1，大到你无法想象</h1>
+
+    <h1 :class="classObj">只是一个很大很大的h1，大到你无法想象</h1>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            flag:1,
+            classObj:{
+                red:true,
+                thin:true,
+                italic:false,
+                active:false
+            }
+        }
+    })
+</script>
+</body>
+</html>

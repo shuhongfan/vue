@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h4>单选题</h4>
+    <p>请选择一个正确答案</p>
+    <template v-for="item in lists">
+        <input
+                :key="item.id"
+                type="radio"
+                v-model="choice1"
+                :value="item.id"
+                :disabled="radioDisable">
+        {{item.text}}
+    </template>
+    <p>
+        <input type="radio" v-model="choice1" value="1" :disabled="radioDisable">A.答案1
+    </p>
+    <p>
+        <input type="radio" v-model="choice1" value="2" :disabled="radioDisable">B.答案2
+    </p>
+    <p>
+        <input type="radio" v-model="choice1" value="3" :disabled="radioDisable">C.答案3
+    </p>
+    <p>
+        <input type="radio" v-model="choice1" value="4" :disabled="radioDisable">D.答案4
+    </p>
+    <p>
+        <button @click="confirm1()" :disabled="isdisable">提交</button>
+    </p>
+    <p>
+        你选择的value={{choice1}}
+    </p>
+    <p v-if="isShowcorrect1">回答正确！！！</p>
+    <p v-if="isShowwrong1">回答错误！！！正确答案是 B</p>
+    <hr>
+    <hr>
+    <h4>多选题</h4>
+    <p>请选择正确答案</p>
+    <template v-for="item in lists">
+        <input
+                :key="item.id"
+                type="checkbox"
+                v-model="choice2"
+                :value="item.id"
+                :disabled="checkboxDisable">
+        {{item.text}}
+    </template>
+    <p>
+        <input type="checkbox" v-model="choice2" value="1" :disabled="checkboxDisable">A.答案1
+    </p>
+    <p>
+        <input type="checkbox" v-model="choice2" value="2" :disabled="checkboxDisable">B.答案2
+    </p>
+    <p>
+        <input type="checkbox" v-model="choice2" value="3" :disabled="checkboxDisable">C.答案3
+    </p>
+    <p>
+        <input type="checkbox" v-model="choice2" value="4" :disabled="checkboxDisable">D.答案4
+    </p>
+    <p>
+        <button @click="confirm2()" :disabled="isdisable2">提交</button>
+    </p>
+    <p>
+        你选择的value={{choice2}}
+    </p>
+    <p v-if="isShowcorrect2">回答正确！！！</p>
+    <p v-if="isShowwrong2">回答错误！！！正确答案是 A C</p>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            lists:[
+                {id:1,text:'A:答案1'},
+                {id:2,text:'B:答案2'},
+                {id:3,text:'C:答案3'},
+                {id:4,text:'D:答案4'},
+            ],
+            choice1:'',
+            choice2:[],
+            answer1:'2',
+            answer2:['1,3'],
+            isdisable:false,
+            isdisable2:false,
+            isShowcorrect1:false,
+            isShowcorrect2:false,
+            isShowwrong1:false,
+            isShowwrong2:false,
+            radioDisable:false,
+            checkboxDisable:false
+        },
+        methods:{
+            confirm1(){
+                console.log(this.choice1)
+                if (this.choice1!==''){
+                    this.choice1==this.answer1?this.isShowcorrect1=true:this.isShowwrong1=true
+                    this.isdisable=true
+                    this.radioDisable=true
+                }else {
+                    alert('请选择一个答案！！！')
+                }
+            },
+            confirm2(){
+                console.log(this.choice2)
+                if (this.choice2!==''){
+                    this.choice2.sort().toString()==this.answer2.sort().toString()?this.isShowcorrect2=true:this.isShowwrong2=true
+                    this.isdisable2=true
+                    this.checkboxDisable=true
+                }else {
+                    alert('请选择一个答案！！！')
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

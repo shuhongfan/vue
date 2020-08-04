@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <table border="1" @click="handDelGoods($event)">
+        <caption>购物车</caption>
+        <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>价格</th>
+            <th>数量</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(goods, index) in goodsList">
+            <td>{{index}}</td>
+            <td v-for="item in goods">{{item}}</td>
+<!--            <td>{{goods.name}}</td>-->
+<!--            <td>{{goods.price}}</td>-->
+<!--            <td>{{goods.count}}</td>-->
+            <td>
+                <a href="" @click.prevent="delGoods(index)">删除</a>
+                <a :data-index="index">删除</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            goodsList: [
+                {name:'iphone', price:8888, count: 1},
+                {name:'mp3', price:2222, count: 1},
+                {name:'video', price:111, count: 1}
+            ]
+        },
+        methods:{
+            delGoods(index) {
+                this.goodsList.splice(index,1)
+            },
+            handDelGoods(event) {
+                console.log(event)
+                console.log('target='+event.target.tagName)
+                if (event.target.tagName === 'A'){
+                    console.log(event.target.dataset.index)
+                    this.goodsList.splice(event.target.dataset.index,1)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

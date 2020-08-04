@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <component-a></component-a>
+</div>
+<script>
+    Vue.component('component-a',{
+        tempalte:`<button @click="handleEvent">通过父链直接修改数据</button>`,
+        methods:{
+            handleEvent() {
+                this.$parent.message = '来自组件component-a的内容'
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            message: ''
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

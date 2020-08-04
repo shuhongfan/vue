@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <p v-html="buildHtml"></p>
+    <p>商品总价为：{{total}}</p>
+    <p>商品总价为：{{total}}</p>
+    <p>商品总价为：{{sum()}}</p>
+    <p>商品总价为：{{sum()}}</p>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            package1:[
+                {name:'iphone7',price:7199,count:2},
+                {name:'ipad2',price:2899,count:1}
+            ],
+            package2:[
+                {name:'banana',price:2,count:2},
+                {name:'apple',price:3,count:5}
+            ],
+            title:'购物车'
+        },
+        computed:{
+          total(){
+              console.log('computed调用')
+              var sum1=0
+              for (let i = 0; i <this.package1.length; i++) {
+                  sum1+=this.package1[i].price
+              }
+              var sum2=0
+              for (let i = 0; i <this.package2.length; i++) {
+                  sum2+=this.package2[i].price
+              }
+              return sum1+sum2
+          },
+          buildHtml(){
+              return '<span style="color: red">'+this.title+'</span>'
+          }
+        },
+        methods:{
+            sum(){
+                console.log('methods调用')
+                let newArr = this.package1.concat(this.package2)
+                console.log(newArr)
+                let sum = 0
+                for (i in newArr)
+                    sum += newArr[i].price * newArr[i].count
+                return sum
+
+                // var sum1=0
+                // for (let i = 0; i <this.package1.length; i++) {
+                //     sum1+=this.package1[i].price
+                // }
+                // var sum2=0
+                // for (let i = 0; i <this.package2.length; i++) {
+                //     sum2+=this.package2[i].price
+                // }
+                // return sum1+sum2
+            },
+        }
+    })
+</script>
+</body>
+</html>

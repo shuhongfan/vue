@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <menu-item :menu-title="pmsg"></menu-item>
+</div>
+<script>
+    Vue.component('third-com',{
+        props:['testTitle'],
+        template:'<div>{{testTitle}}</div>'
+    })
+    Vue.component('menu-item',{
+        props:['menuTitle'],
+        template:'<div>{{menuTitle}} <third-com testTitle="hello"></third-com></div>'
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            pmsg:'父组件中内容',
+            ptitle:'动态绑定属性'
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

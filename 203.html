@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        #app{
+            width: 300px;
+            height: 300px;
+            margin: auto;
+        }
+        .v-enter{
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        .v-enter-active{
+            transition: all .5s;
+        }
+        .v-leave-active{
+            transition: all .5s;
+        }
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p><button @click="isEditing=!isEditing">切换</button></p>
+    <transition mode="out-in">
+        <button v-if="isEditing" key="save">保存</button>
+        <button v-else key="edit">编辑</button>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            isEditing: false
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

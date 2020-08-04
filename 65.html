@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    {{msg}}
+    {{msg.split('').reverse().join()}}
+    {{reverse}}
+    {{reverse}}
+    {{rever()}}
+    {{rever()}}
+    <input type="text" v-model="first">
+    <input type="text" v-model="last">
+    <input type="text" v-model="fullname">
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg:'NiHao',
+            num:100,
+            first:'jim',
+            last:'green',
+            full:'jim green'
+        },
+        methods:{
+            rever(){
+                console.log('methods')
+                return this.msg.split('').reverse().join()
+            }
+        },
+        computed:{
+            reverse(){
+                console.log('computed')
+                // return this.msg.split('').reverse().join()
+                var total=0
+                for (let i = 0; i <=this.num; i++) {
+                    total+=i
+                }
+                return total
+            }
+        },
+        watch:{
+            first(val){
+                this.full=val+'  '+this.last
+            },
+            last(val){
+                this.full=this.first+'    '+val
+            }
+        },
+        computed:{
+            fullname(){
+                return this.first+'   '+this.last
+            }
+        }
+    })
+</script>
+</body>
+</html>

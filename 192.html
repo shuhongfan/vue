@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .v-enter-active{
+            animation: bounce-in 10s;
+        }
+        .v-leave-active{
+            animation: bounce-in 10s reverse;
+        }
+        /*.v-leave-active{*/
+        /*    animation: bounce-out 10s;*/
+        /*}*/
+        @keyframes bounce-in {
+            0%{transform: scale(0)}
+            50%{transform: scale(1.5)}
+            100%{transform: scale(1)}
+        }
+        @keyframes bounce-out {
+            0%{transform: scale(1)}
+            50%{transform: scale(1.5)}
+            100%{transform: scale(0)}
+        }
+        .container{
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="isShow=!isShow">切换</button>
+    <transition>
+        <p v-show="isShow" class="container">这是一个keyframes动画</p>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            isShow:true
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

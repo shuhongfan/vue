@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-component></my-component>
+    <hr>
+    <my-component></my-component>
+    <hr>
+    <local-component></local-component>
+</div>
+<template id="my">
+    <div>
+        <div>这是div的内容</div>
+        <p>这是p的内容</p>
+        <p>count={{count}}</p>
+        <button @click="count++">count++</button>
+    </div>
+</template>
+<script>
+    // let myDate={
+    //     count:1
+    // }
+    // 创建组件
+    let myComponent = Vue.extend({
+        // template:'<div>这是我的全局组件的界面内容</div>',
+        // template: `<div>
+        //         这是我的全局组件的界面内容
+        //         <p>这是p的内容</p>
+        //     </div>`,
+        template: '#my',
+        data () {
+            // return myDate
+            return {
+                count: 1
+            }
+        }
+    })
+    // 全局注册组件my-component
+    Vue.component('my-component', myComponent)
+    // 创建组件
+    let localComponent = Vue.extend({
+        template: '<div>这是我的局部组件的界面内容</div>'
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{},
+        // 局部组件
+        components:{
+            'local-component': localComponent
+        }
+    })
+</script>
+</body>
+</html>

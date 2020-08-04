@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <child1-component></child1-component>
+    <hr>
+    <child2-component></child2-component>
+</div>
+<script>
+    const bus = new Vue()
+    Vue.component('child1-component',{
+        template:`
+            <div>
+                <button @click="updateChild2">更新子组件2的内容</button>
+            </div>
+            `,
+        data(){
+            return{
+                val:'组件 1 的数据'
+            }
+        },
+        methods:{
+            updateChild2(){
+                bus.$emit('child1-event',this.val)
+            }
+        }
+    })
+    Vue.component('child2-component',{
+        template:`
+        <p>
+            name={{name}}
+        </p>
+        `,
+        data(){
+            return{
+                name:'组件 2 的数据'
+            }
+        },
+        created(){
+            bus.$on('child1-event',(str)=>{
+                this.name=str
+            })
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{}
+    })
+</script>
+</body>
+</html>

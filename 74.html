@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+</div>
+<script>
+    Vue.component('HelloWorld',{
+        // data:
+    })
+    Vue.component('button-counter',{
+        data(){
+            return{
+                count:0,
+                msg:'helloworld'
+            }
+        },
+        template:'<div><button @click="handle">点击了{{count}}</button></div>',
+        methods:{
+            handle(){
+                this.count+=2
+            }
+        }
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{},
+        methods:{}
+    })
+</script>
+</body>
+</html>

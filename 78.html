@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>{{pmsg}}</div>
+    <menu-item :pstr="pstr" :pnum="12" :pboo="true" :parr="parr" :pobj="pobj"></menu-item>
+</div>
+<script>
+    Vue.component('menu-item',{
+        props:['pstr','pnum','pboo','parr','pobj'],
+        template:'<div><div>{{pstr}}</div><div>{{12+pnum}}</div><div>{{pboo}}</div><ul><li v-for="(item,i) in parr">{{item}}</li></ul><div><span>{{pobj.name}}---{{pobj.age}}</span></div></div>'
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            pmsg:'父组件内容',
+            pstr:'hello',
+            parr:['apple','orange','banana'],
+            pobj:{
+                name:'lisi',
+                age:18
+            }
+        }
+    })
+</script>
+</body>
+</html>

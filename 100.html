@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="(item,i) in goodsList" :key="item.name">
+            商品{{i}}
+            <ul>
+                <li v-for="item1 in item" :key="item1.name">
+                    {{item1}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <ul>
+        <li v-for="(item,i) in filterGoodsList" :key="item.name">
+            {{item.name}}----{{item.peice}}---{{item.count}}
+        </li>
+    </ul>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            goodsList:[
+                {name:'iphone',peice:8888,count:1},
+                {name:'mp3',peice:2222,count:3},
+                {name:'mp4',peice:883388,count:4},
+            ]
+        },
+        computed:{
+            filterGoodsList(){
+                var newlist=this.goodsList.filter(function (goods) {
+                    return goods.peice>6000
+                })
+                return newlist
+            }
+        },
+        // methods:{
+        //     filterGoodsList(){
+        //         this.goodsList=this.goodsList.filter(function (goods) {
+        //             return goods.peice>6000
+        //         })
+        //     }
+        // },
+        // mounted(){
+        //     this.filterGoodsList()
+        // }
+    })
+</script>
+</body>
+</html>

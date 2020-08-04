@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <p v-cloak>++++++++{{msg}}------</p>
+    <h4 v-text="msg">=======</h4>
+    <div v-text="msg2"></div>
+    <div v-html="msg2">==-</div>
+
+    <input type="button" value="按钮" v-bind:title="mytitle+'4545'">
+    <input type="button" value="按钮1" :title="mytitle">
+
+    <input type="button" value="按钮" v-on:click="show">
+    <input type="button" value="按钮" @click="show">
+</div>
+
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            msg: 'fsdfs',
+            msg2:'<h1>哈哈我是一个大大的h1</h1>',
+            mytitle:'这是一个自己定义的title'
+        },
+        methods:{
+            show:function () {
+                alert('hello')
+            }
+        }
+    })
+</script>
+</body>
+</html>

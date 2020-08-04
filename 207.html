@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="sub">-</button>
+        <span>{{num}}</span>
+        <button @click="add">+</button>
+
+
+    </div>
+    <script>
+        var app=new Vue({
+            el:'#app',
+            data:{
+                num:1
+            },
+            methods:{
+                add(){
+                    console.log('add')
+                    if (this.num<10){
+                        return this.num++
+                    }
+                    alert('最大值为10')
+                },
+                sub(){
+                    console.log('sub')
+                    if (this.num>0){
+                        return this.num--
+                    }
+                    alert('最小值为0')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

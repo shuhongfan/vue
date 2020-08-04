@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script>
+    Vue.component('tabs',{
+        template:`
+        <div class="tabs">
+           <div class="tabs-bar">
+           </div>
+           <div class="tabs-content">
+               <slot></slot>
+            </div>
+        </div>
+        `,
+        data(){
+            return{
+                navList: []
+            }
+        },
+        methods:{
+            getTabs(){
+                return this.$children.filter(item=>{
+                    return item.$options.name==='pane'
+                })
+            },
+            updateNav() {
+                this.navList=[]
+                this.getTabs().forEach((pane,index)=>{
+                    this.navList
+                })
+            }
+        }
+    })
+    Vue.component('pane',{
+        name:'pane',
+        tempalte:`
+            <div class="pane" v-show="show">
+                <slot></slot>
+            </div>`,
+        props:{
+            name:{
+                type:String
+            },
+            label:{
+                type:String,
+                default:''
+            }
+        },
+        data(){
+            return{
+                show:true
+            }
+        },
+        methods:{
+            updateNav(){
+                this.$parent.updateNav()
+            }
+        },
+        watch:{
+            label(){
+                this.updateNav()
+            }
+        },
+        mounted(){
+            this.updateNav()
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{}
+    })
+</script>
+</body>
+</html>

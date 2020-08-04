@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h5>使用分页组件</h5>
+    <page-component :total="35"></page-component>
+</div>
+<template id="page-component">
+    <ul class="pagination">
+        <li :class="p==page ? 'page-item active' : 'page-item'" v-for="(p,i) in pagecount" :key="i">
+            <a @click.prevent="page=p" href="#" class="page-link">{{p}}</a>
+        </li>
+    </ul>
+</template>
+<script>
+    var PageComponent={
+        name:'PageComponent',
+        template:'#page-component',
+        props:['total'],
+        data(){
+            return{
+                page:1,
+                pagesize:10
+            }
+        },
+        computed:{
+            pagecount(){
+                return Math.ceil(this.total/this.pagesize)
+            }
+        }
+    }
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{},
+        components:{
+            PageComponent
+        }
+    })
+</script>
+</body>
+</html>

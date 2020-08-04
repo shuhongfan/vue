@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{message|uppercase|getChar(0)}}</p>
+    <p :class="myClass|abc|getChar(0)">红色文字</p>
+</div>
+<div id="app2">
+    <p>{{msg|uppercase}}</p>
+</div>
+<script>
+    Vue.filter('uppercase',function(m){
+        return m.toUpperCase()
+    })
+    Vue.filter('getChar',function (str,n) {
+        return str.charAt(n)
+    })
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            message:'this is a message',
+            myClass:'红色'
+        },
+        methods:{},
+        filters:{
+            // uppercase(m){
+            //     return m.toUpperCase()
+            // },
+            abc(c){
+                switch (c) {
+                    case '红色':return 'hongse'
+                }
+            }
+        }
+    })
+    var vm2=new Vue({
+        el:'#app2',
+        data:{
+            msg:'i am app2'
+        }
+    })
+</script>
+</body>
+</html>

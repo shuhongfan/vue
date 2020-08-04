@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <my-com1></my-com1>
+    <mycom2></mycom2>
+    <mycom3></mycom3>
+    <mycom4></mycom4>
+    <login></login>
+</div>
+<div id="app2">
+    <mycom3></mycom3>
+    <login></login>
+</div>
+<div id="tmpl">
+    <div>
+        <h4>这是通过template元素 在外部定义的</h4>
+        <span></span>
+    </div>
+</div>
+<script>
+    // 创建vue组件
+    var com1=Vue.extend({
+        template:'<h3>这是使用vue.extend创建出来的组件</h3>'
+    })
+    Vue.component('myCom1',com1)
+
+    Vue.component('mycom2',Vue.extend({
+        template:'<h1>我是H1</h1>'
+    }))
+
+    Vue.component('mycom3',{
+        template:'<div><h2>我是mycom3</h2><span></span></div>'
+    })
+
+    Vue.component('mycom4',{
+        template:'#tmpl'
+    })
+
+    var vm=new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods:{
+
+        }
+    })
+    var vm2=new Vue({
+        el:'#app2',
+        data:{},
+        methods: {},
+        // 私有过滤器
+        filters:{},
+        // 私有指令
+        directives:{},
+        // 私有组件
+        components:{
+            login:{
+                template:'<h1>这是私有login</h1>'
+            }
+        },
+
+        beforeCreate(){},
+        created(){},
+        beforeMount(){},
+        mounted(){},
+        beforeUpdate(){},
+        updated(){},
+        beforeDestory(){},
+        destoryed(){}
+    })
+</script>
+</body>
+</html>

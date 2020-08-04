@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="msg"><button @click="add">添加</button>
+    <ul v-for="(item,i) in m" :key="m[i]">
+        <li>
+            {{item}}---<a href="" @click.prevent="del(i)">删除</a>
+        </li>
+    </ul>
+    <hr>
+    <button @click="sortAge" v-text="text"></button>
+    <ul v-for="item in stus">
+        <li>{{item.name}}-------{{item.age}}</li>
+    </ul>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>age</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,i) in stus">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
+                <td><a href="" @click.prevent="delStus(i)">删除</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            m:['m1','m2','m3','m4'],
+            msg:'',
+            stus:[
+                {
+                    id:1,
+                    name:'学生1',
+                    age:20
+                },
+                {
+                    id:2,
+                    name:'学生2',
+                    age:29
+                },
+                {
+                    id:3,
+                    name:'学生3',
+                    age:19
+                },
+            ],
+            text:'无序'
+        },
+        methods:{
+            sortAge(){
+                if (this.text=='无序'){
+                    this.stus=this.stus.sort((a, b) => a.age - b.age).reverse()
+                    this.text='降序'
+                }
+                else if (this.text=='降序'){
+                    this.stus=this.stus.sort((a, b) => a.age - b.age)
+                    this.text='升序'
+                }
+                else if (this.text=='升序'){
+                    this.stus=this.stus.sort(() => Math.random() - 0.5);
+                    this.text='无序'
+                }
+            },
+            del(i){
+                this.m.splice(i,1)
+            },
+            add(){
+                this.m.push(this.msg)
+            },
+            delStus(i){
+                this.stus.splice(i,1)
+            },
+        }
+    })
+</script>
+</body>
+</html>

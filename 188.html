@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        /*属性选择器*/
+        [v-clock]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p ref="content">baidu.com</p>
+    <button @click="hand">提示</button>
+
+    <p v-text="msg"></p>
+    <p>{{msg}}</p>
+    <p v-cloak>{{msg}}</p>
+</div>
+<script>
+    alert('------')
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'百度'
+        },
+        methods:{
+            hand(){
+                console.log(this.$refs.content.textContent)
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    姓： <input type="text" placeholder="First Name" v-model="firstName"><br/>
+    名： <input type="text" placeholder="Last Name" v-model="lastName"><br/>
+    姓名1(单向): <input type="text" placeholder="full name1" v-model="fullName1"><br/>
+    姓名2(单向): <input type="text" placeholder="full name2" v-model="fullName2"><br/>
+    姓名3(双向): <input type="text" placeholder="full name3" v-model="fullName3"><br/>
+    {{fullName1}}
+    {{fullName1}}
+    {{fullName1}}
+    {{fullName1}}
+</div>
+<script>
+    var vm =new Vue({
+        el:'#app',
+        data:{
+            firstName:'A1',
+            lastName:'B2',
+            fullName2:''
+        },
+        methods:{},
+        computed:{
+            fullName1(){
+                console.log('调用了fullname1')
+                return this.firstName + '  ' + this.lastName
+            },
+            fullName3:{
+                // 1.你定义的 2.你没有调用 3.但最终它执行
+                // 回调函数 当需要读取当前属性时回调 计算并返回当前属性的值
+                get(){
+                    return this.firstName+' '+this.lastName
+                },
+                // 回调函数 当属性值发生改变时回调 更新相关的属性数据
+                // 监视当前属性值变化
+                set(value){
+                    console.log(value)
+                    const names = value.split(' ')
+                    this.firstName=names[0]
+                    this.lastName=names[1]
+                }
+            }
+        },
+        watch:{ // 配置监视
+            firstName(value){
+                console.log(this)
+                this.fullName2=value + '  ' +this.lastName
+            }
+        }
+    })
+    vm.$watch('lastName',function(newVal,oldVal){
+        this.fullName2=this.firstName+ '  ' +newVal
+    })
+</script>
+</body>
+</html>

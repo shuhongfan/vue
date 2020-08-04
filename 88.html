@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function foo() {
+        console.dir(Promise)
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                reject('errr')
+            },100)
+        })
+    }
+    foo()
+    .then(function (data) {
+        console.log(data)
+    })
+    .catch(function (data) {
+        console.log(data)
+    })
+    .finally(function () {
+        console.log('finished')
+    })
+</script>
+</body>
+</html>

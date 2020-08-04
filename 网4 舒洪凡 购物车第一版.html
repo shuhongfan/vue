@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+    <style>
+        table{
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        tr{
+            border: 1px solid black;
+        }
+        td{
+            padding: 20px;
+            border: 1px solid black;
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <table>
+        <caption>我的购物车</caption>
+        <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th @click="sortSubTotal" v-if="index==1">↑总金额</th>
+            <th @click="sortSubTotal" v-if="index==2">↓总金额</th>
+            <th @click="sortSubTotal" v-if="index==0">总金额</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(goods,i) in goodsList" :key="goods.name">
+            <td>{{i+1}}</td>
+            <td>{{goods.name}}</td>
+            <td>￥{{goods.price}}</td>
+            <td><input type="number" v-model="goods.count"></td>
+            <td>{{goods.count * goods.price}}</td>
+            <td><a href="" @click.prevent="delGoods(i)">删除</a></td>
+        </tr>
+        <tr>
+            <td colspan="6">总价：￥{{total}}</td>
+        </tr>
+    </table>
+</div>
+<script>
+    var vm =new Vue({
+        el:'#app',
+        data:{
+            goodsList: [
+                {name:'mp3',price:'222',count:1},
+                {name:'mp4',price:'888',count:1},
+                {name:'mp5',price:'444',count:1},
+                {name:'mp6',price:'777',count:1}
+            ],
+            index:0,
+            original:{}
+        },
+        computed: {
+            total(){
+                return this.goodsList.reduce((total,item)=>{
+                    console.log(total+'--------'+item)
+                    console.log(item)
+                    return total + item.price*item.count
+                },0)
+            }
+        },
+        watch: {
+            // 侦听数组 要用侦听函数的分解写法
+            goodsList: {
+                // 侦听函数 必须是handler
+                handler(newValue,oldValue){
+                    for (let i = 0; i <newValue.length; i++) {
+                        if (newValue[i].count<1){
+                            this.goodsList[i].count=1
+                        }
+                    }
+                },
+                // 深度监听
+                deep:true
+            }
+        },
+        mounted(){
+            this.original=this.goodsList.slice(0)
+        },
+        methods: {
+            delGoods(index){
+                // this.goodsList.splice(index,1)
+                // splice方法返回一个包含了被删除数组元素的一个新数组，将这个数组保存到deletearr中
+                var deleteArr=this.goodsList.splice(index,1)
+                // 找到被删除的数组元素在origin中的位置，保存到indexoforiginal
+                var indexInOriginal=this.original.findIndex(function (goods) {
+                    return (goods.name===deleteArr[0].name)&&(goods.price===deleteArr[0].price)
+                })
+                console.log(indexInOriginal)
+                // 同步删除在原始数组中的相应数组元素
+                this.original.splice(indexInOriginal,1)
+            },
+            sortSubTotal(){
+                // this.index++
+                // 保证index在0-2之间变化
+                // ++this.index%3
+                // if (this.index>2){
+                //     this.index=0
+                // }
+                if (this.index==0){
+                    this.index=1
+                    this.goodsList.sort((a,b)=>{
+                        return a.price*a.count-b.price*b.count
+                    })
+                }else if (this.index==1){
+                    this.index=2
+                    this.goodsList.sort((a,b)=>{
+                        return b.price*b.count-a.price*a.count
+                    })
+                }else if (this.index==2){
+                    this.index=0
+                    // this.goodsList.sort(() => Math.random() - 0.5)
+                    this.goodsList=this.original.slice(0)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

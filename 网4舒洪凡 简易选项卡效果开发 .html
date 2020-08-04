@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+            position: relative;
+            height: 50px;
+            width: 410px;
+            margin: 0 auto;
+        }
+        li{
+            float: left;
+            border: 1px solid red;
+            width: 100px;
+            height: 50px;
+        }
+        .active{
+            background: yellow!important;
+            z-index: 999;
+        }
+        .main{
+            clear: both;
+        }
+        .main div{
+            position: absolute;
+            left: 0;
+            top: 50px;
+            width: 405px;
+            height: 200px;
+            background: blue;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <ul @click="setColor($event)">
+<!--        @click="handle(index)"-->
+        <li
+                :class="currentIndex==index ? 'active' : '' "
+                :data-abc="index"
+                v-for="(item,index) in lists"
+                :key="item.id">
+            选项{{item.id}}
+        </li>
+        <div class="main">
+            <div v-for="(item,index) in lists"
+                 :key="item.id"
+                 :class="currentIndex==index?'active':''">
+                {{item.content}}
+            </div>
+        </div>
+    </ul>
+
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            lists:[
+                {id:1,content:'我是内容1'},
+                {id:2,content:'我是内容2'},
+                {id:3,content:'我是内容3'},
+                {id:4,content:'我是内容4'}
+            ],
+            currentIndex:0
+        },
+        methods:{
+            handle(index){
+                console.log(index)
+                this.currentIndex=index
+            },
+            setColor(event){
+                console.log(event)
+                if (event.target.tagName=='LI'){
+                    this.currentIndex=event.target.dataset.abc
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="isShow=!isShow">切换</button>
+<!--    <h1 class="animate__animated animate__bounce">An animated element</h1>-->
+    <transition
+            enter-active-class="animated tada"
+            leave-active-class="animated bounceOutRight">
+        <p v-if="isShow">hello world</p>
+    </transition>
+    <transition
+            enter-active-class="animated tada"
+            leave-active-class="animated bounceOutRight">
+        <p v-if="isShow">hello</p>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            isShow:true
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

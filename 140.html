@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/axios.min.js"></script>
+</head>
+<body>
+<script>
+    // 基准URL地址
+    axios.defaults.baseURL='http://localhost:3000'
+    //配置请求头信息
+    axios.defaults.headers['mytoken']='hello'
+    axios.defaults.timeout=3000
+    axios.get('axios-json').then(ret=>{
+        console.log(ret)
+    })
+    // 拦截器
+    axios.interceptors.request.use(function (config) {
+        console.log(config)
+        config.headers.mytoken='nihao'
+        return config
+    },function (err) {
+        console.log(err)
+    })
+    axios.interceptors.response.use(function (res) {
+        var data =res.data
+        return res.data
+    },function (err) {
+        console.log(err)
+    })
+
+    axios.get('http://localhost:3000/adata',function (data) {
+        alert(data)
+    })
+</script>
+</body>
+</html>

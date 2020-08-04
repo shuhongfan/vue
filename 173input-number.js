@@ -1,0 +1,84 @@
+Vue.component('input-number',{
+    template:`
+        <div>
+            <button
+                @click="handDown"
+                :disabled="currentValue<=min">-</button>
+            <input
+                type="text"
+                :value="currentValue"
+                @input="handInput($event)"
+                @keyup.up="keyupInput"
+                @keyup.down="keydownInput"
+                :disabled="(currentValue>=max)||(currentValue<=min)">
+            <button
+                @click="handUp"
+                :disabled="currentValue>=max">+</button>
+        </div>
+        `,
+    // props:['value']
+    props:{
+        value:{
+            type:Number,
+            default:0,
+            validator(val){
+                return val>=0
+            }
+        },
+        max:{
+            type:Number,
+            default:Infinity,
+            required:true
+        },
+        min:{
+            type:Number,
+            default:-Infinity,
+            required:true
+        },
+        step:{
+            type:Number,
+            default:10,
+            required:true
+        }
+    },
+    data(){
+        return{
+            currentValue:parseInt(this.value)
+        }
+    },
+    methods:{
+        handDown(){
+            this.currentValue-=this.step
+        },
+        handUp(){
+            this.currentValue+=this.step
+        },
+        handInput(event){
+            console.log(event.target.value)
+            if (isNaN(event.target.value)){
+                event.target.value=this.currentValue
+            }
+            this.currentValue=parseInt(event.target.value)
+            this.$emit('input',this.currentValue)
+        },
+        keyupInput(){
+            this.currentValue+=this.step
+            this.$emit('input',this.currentValue)
+        },
+        keydownInput(){
+            this.currentValue-=this.step
+            this.$emit('input',this.currentValue)
+        }
+    },
+    watch:{
+        currentValue(newVal,oldVal){
+            console.log(newVal+'----'+oldVal)
+            if (this.currentValue>this.max) this.currentValue=this.max
+            if (this.currentValue<this.min) this.currentValue=this.min
+            if (isNaN(newVal)){
+                return this.currentValue=oldVal
+            }
+            this.$emit('input',this.currentValue)
+        }
+    }
+})

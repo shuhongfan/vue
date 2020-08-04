@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <script src="lib/vue-router-3.0.1.js"></script>
+</head>
+<body>
+<div id="app">
+    <router-link :to="{name:'user',params:{id:11}}">USER11</router-link>
+    <router-link to="/user/1">USER1</router-link>
+    <router-link to="/user/2">USER2</router-link>
+    <router-link to="/user/3">USER3</router-link>
+    <router-link to="/user/4">USER4</router-link>
+    <router-link to="/user/5">USER5</router-link>
+    <router-link to="/user/6">USER6</router-link>
+    <router-link to="/register">register</router-link>
+    <router-view></router-view>
+</div>
+<script>
+    var User={
+        props:['id','uname','age'],
+        template:`<div>
+                <h1>user组件{{$route.params.id}}----{{id}}----{{uname}}----{{age}}</h1>
+                <button @click="goRegister">跳转到注册页面</button>
+            </div>`,
+        methods:{
+            goRegister(){
+                this.$router.push('/register')
+            }
+        }
+    }
+    var Register={
+        template:`<div>
+            <h1>register组件</h1>
+            <button @click="goBack">后退</button>
+            <hr>
+            <router-link to="/register/tab1">tab1</router-link>
+            <router-link to="/register/tab2">tab2</router-link>
+            <router-view></router-view>
+            </div>`,
+        methods:{
+            goBack(){
+                this.$router.go(-1)
+            }
+        }
+    }
+    var Tab1={
+        template:'<h1>TAB1组件</h1>'
+    }
+    var Tab2={
+        template:'<h1>TAB2组件</h1>'
+    }
+    var router=new VueRouter({
+        routes:[
+            {path:'/',redirect:'/user'},
+            {
+                name:'user',
+                path:'/user/:id',
+                component:User,
+                props:route=>({uname:'zs',age:20,id:route.params.id})
+            },
+            {
+                path:'/register',
+                component:Register,
+                children:[
+                    {path:'tab1',component:Tab1},
+                    {path:'tab2',component:Tab2},
+                ]
+            },
+        ]
+    })
+    var vm=new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods:{
+
+        },
+        router
+    })
+</script>
+</body>
+</html>

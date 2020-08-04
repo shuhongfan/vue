@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<!--    <input-number v-model="num"></input-number>-->
+    <input-number :value="num" @input="handInput"></input-number>
+    num={{num}}--父组件
+</div>
+<script>
+    Vue.component('input-number',{
+        template:`
+        <div>
+            <button @click="handDown">-</button>
+            <input type="text" :value="currentValue" @input="handInput($event)">
+            <button @click="handUp">+</button>
+        </div>
+        `,
+        // props:['value']
+        props:{
+            value:{
+                type:Number,
+                default:0,
+                validator(val){
+                    return val>=0
+                }
+            }
+        },
+        data(){
+            return{
+                currentValue:this.value
+            }
+        },
+        methods:{
+            handDown(){
+                this.currentValue--
+            },
+            handUp(){
+                this.currentValue++
+            },
+            handInput(event){
+                console.log(45)
+                this.currentValue=parseInt(event.target.value)
+                this.$emit('input',this.currentValue)
+            }
+        },
+        watch:{
+            currentValue(newVal,oldVal){
+                this.$emit('input',this.currentValue)
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            num:5
+        },
+        methods:{
+            handInput(str){
+                this.num=str
+            }
+        }
+    })
+</script>
+</body>
+</html>

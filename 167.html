@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h4>在父组件中使用input-component子组件</h4>
+    <input-component :value="name" @input="handleInput"></input-component>
+    <input-component v-model="name"></input-component>
+    <p>父组件中的name变量值={{name}}</p>
+</div>
+<template id="my-component">
+    <div>
+        <label for="my">子组件input-component中的文本框</label>
+        <input type="text" :value="value" @input="myInput($event)" id="my">
+    </div>
+</template>
+<script>
+    const myComponent = Vue.extend({
+        template:'#my-component',
+        props:['value'],
+        methods:{
+            myInput(event){
+                this.$emit('input',event.target.value)
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            name:'vue.js'
+        },
+        components:{
+            'input-component':myComponent
+        },
+        methods:{
+            handleInput(str){
+                this.name=str
+            }
+        }
+    })
+</script>
+</body>
+</html>

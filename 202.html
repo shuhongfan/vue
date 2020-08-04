@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="app">
+    <button @click="add">添加</button>
+    <transition
+            enter-active-class="animated tada"
+            leave-active-class="animated bounceOutRight"
+    >
+        <ul v-if="items.length>0">
+            <li v-for="(item,index) in items" :key="index">
+                姓名：{{item.name}} <br>
+                年龄: {{item.age}}
+                <button @click="del(index)">删除</button>
+            </li>
+        </ul>
+        <p v-else>
+            抱歉，没有找到您的内容
+        </p>
+    </transition>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            items:[
+                {name:'t1',age:32},
+                {name:'t2',age:322},
+                {name:'t3',age:3232}
+            ]
+        },
+        methods:{
+            del(item){
+                this.items.splice(item,1)
+            },
+            add(){
+                this.items.push(
+                    {name:this.items.length+1,age:this.items.length+10}
+                )
+            }
+        }
+    })
+</script>
+</body>
+</html>

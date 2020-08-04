@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>您的姓名是：{{fullName}}</p>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#app',
+        data:{
+            firstName:'明',
+            lastName:'张'
+        },
+        computed:{
+            fullName:{
+                get(){//获取数据
+                    return this.lastName+this.firstName
+                },
+                set(newName){//
+                    console.log('newName的值是'+newName)
+                    this.lastName=newName.charAt(0)
+                    this.firstName=newName.charAt(1)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

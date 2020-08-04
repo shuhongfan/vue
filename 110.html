@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <style>
+        .active{
+            border: 1px solid red;
+            width: 100px;
+            height: 100px;
+        }
+        .error{
+            background: royalblue;
+        }
+        .test{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div :class="{active: isActive,error: isError}"></div>
+    <button @click="isActive=!isActive">sa</button>
+    <div :class="[activeClass,errorClass,{test:isActive}]">3453</div>
+    <div :class="arrClass"></div>
+
+    <div :style="{border:borderstyle,width:widthstyle,height:heightstyle}">sada</div>
+    <div :style="objStyle"></div>
+    <div :style="[objStyle,over]"></div>
+</div>
+<script>
+    var vm =new Vue({
+        el:'#app',
+        data:{
+            isActive:true,
+            isError:true,
+            activeClass:'active',
+            errorClass:'error',
+            arrClass:['active','error'],
+            objClass:{
+                active: true,
+                error: true
+            },
+            borderstyle:'2px solid red',
+            widthstyle:'10px',
+            heightstyle:'200px',
+            objStyle:{
+                border:'2px solid yellow',
+                width:'120px',
+                height:'100px',
+            },
+            over:{
+                background:'red'
+            }
+        },
+        methods:{
+        }
+    })
+</script>
+</body>
+</html>
