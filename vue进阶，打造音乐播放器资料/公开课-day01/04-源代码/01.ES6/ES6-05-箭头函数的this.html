@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数</title>
+</head>
+<body>
+    <script>
+        // 创建时的this是谁 运行的时候this就是谁
+        let person ={
+            name:"花姐",
+            food:'西兰花',
+            sayHi(){
+                // console.log(this)
+                // 保存 this
+                // let that =this
+                // window.setTimeout(function(){
+                //     // console.log(this)
+                //     console.log(that)
+                // },100)
+                console.log(this) // person对象
+                setTimeout(()=>{
+                    console.log(this)
+                },100)
+            }
+        }
+        // 谁点出来的 就是谁
+        person.sayHi()
+    </script>
+</body>
+</html>
