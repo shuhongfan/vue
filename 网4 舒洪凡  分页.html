@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>网络18304 舒洪凡 分页</title>
+		<script src="https://cdn.staticfile.org/vue/2.2.2/vue.js"></script>
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container text-center">
+				<mtable :title="title" :stus="stus" :newstus="newstus"></mtable>
+				<Pagination
+						@handlepage="handlepage"
+						:count="count"
+						:currentpage="currentpage"
+						:pagesize="pagesize"></Pagination>
+			</div>
+		</div>
+		<template id="mtable">
+			<table class="table">
+			    <caption>学生基本信息</caption>
+			   <thead>
+			      <tr>
+			         <th v-for="item in title" :key="item">{{item}}</th>
+			      </tr>
+			   </thead>
+			   <tbody>
+			      <tr v-for="item in newstus" :key=item.name>
+			         <td>{{item.name}}</td>
+			         <td>{{item.age}}</td>
+			      </tr>
+			   </tbody>
+			</table>
+		</template>
+		<template id="pagination">
+			<ul class="pagination">
+				<li><a href="#" @click="prev">&laquo;</a></li>
+				<li
+					:class="currentpage===(index+1)?'active':''"
+					v-for="(item,index) in pagecount"
+					:key="index">
+					<a href="#" @click="setpage(index+1)">{{index+1}}</a>
+				</li>
+				<li><a href="#" @click="next">&raquo;</a></li>
+			</ul>
+		</template>
+		<script type="text/javascript">
+			var Mtable={
+				template:'#mtable',
+				props: ['title','stus','newstus']
+			}
+			var Pagination={
+				template:'#pagination',
+				props: ['count','pagesize','currentpage'],
+				mounted() {
+					this.$emit('handlepage',1)
+				},
+				methods: {
+					setpage (page) {
+						this.$emit('handlepage',page)
+					},
+					prev(){
+						if (this.currentpage>1){
+							this.$emit('handlepage',this.currentpage-1)
+						} else {
+							alert('到达第一页啦!!!')
+						}
+					},
+					next(){
+						if (this.currentpage<this.pagecount){
+							this.$emit('handlepage',this.currentpage+1)
+						} else {
+							alert('到达最后一页啦!!!')
+						}
+					}
+				},
+				computed:{
+					pagecount(){
+						return Math.ceil(this.count / this.pagesize)
+					}
+				}
+			}
+			var vm=new Vue({
+				el:'#app',
+				data:{
+					title:['姓名','年龄'],
+					stus:[
+						{name:'张三',age:18},
+						{name:'李四',age:20},
+						{name:'王五',age:16},
+						{name:'赵六',age:14},
+						{name:'哈哈哈',age:12},
+					],
+					pagesize: 2,
+					currentpage: 1,
+					newstus:[]
+				},
+				methods: {
+					handlepage (page) {
+						this.currentpage=page
+						this.newstus=this.stus.slice((this.currentpage-1)*this.pagesize,this.pagesize*this.currentpage)
+					}
+				},
+				computed: {
+					count () {
+						return this.stus.length
+					}
+				},
+				components:{
+					Mtable,
+					Pagination
+				}
+			})
+		</script>
+	</body>
+</html>
