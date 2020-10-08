@@ -28,23 +28,24 @@
 			      </tr>
 			   </thead>
 			   <tbody>
-			      <tr v-for="item in newstus" :key=item.name>
-			         <td>{{item.name}}</td>
-			         <td>{{item.age}}</td>
+			      <tr v-for="item in newstus" :key="item.name">
+			         <!--<td>{{item.name}}</td>
+			         <td>{{item.age}}</td>-->
+			         <td v-for="val in item" :key="val.name">{{val}}</td>
 			      </tr>
 			   </tbody>
 			</table>
 		</template>
 		<template id="pagination">
 			<ul class="pagination">
-				<li><a href="#" @click="prev">&laquo;</a></li>
+				<li :class="currentpage<=1?'disabled':''"><a href="#" @click="prev">&laquo;</a></li>
 				<li
 					:class="currentpage===(index+1)?'active':''"
 					v-for="(item,index) in pagecount"
 					:key="index">
 					<a href="#" @click="setpage(index+1)">{{index+1}}</a>
 				</li>
-				<li><a href="#" @click="next">&raquo;</a></li>
+				<li :class="currentpage>=pagecount?'disabled':''"><a href="#" @click="next">&raquo;</a></li>
 			</ul>
 		</template>
 		<script type="text/javascript">
@@ -101,6 +102,8 @@
 				methods: {
 					handlepage (page) {
 						this.currentpage=page
+//						var offset=(this.currentpage-1)*this.pagesize
+//						this.stus.slice(offset,offset+this.pagesize)
 						this.newstus=this.stus.slice((this.currentpage-1)*this.pagesize,this.pagesize*this.currentpage)
 					}
 				},
